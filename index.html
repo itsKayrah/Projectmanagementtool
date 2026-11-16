@@ -459,6 +459,18 @@ body>.app{flex:1;min-height:0;height:auto}
 .fmt.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
 .fmt b{font-size:.92rem}
 .fmt span{font-size:.75rem;color:var(--muted)}
+/* Zuständig und Stunden */
+.work{display:grid;gap:.3rem}
+.wrow{display:flex;align-items:center;gap:.3rem}
+.wrow input{min-width:0;border:1px solid var(--line);border-radius:5px;background:var(--panel);padding:.32rem .4rem;font-size:.82rem}
+.wrow input[data-wk="n"]{flex:1}
+.wrow input[data-wk="h"]{width:3.6rem;text-align:right;font-family:var(--mono)}
+.wrow .wu{font-size:.76rem;color:var(--muted)}
+.wrow .btn{padding:.2rem}
+.work>.btn{justify-self:start}
+.row-i select{border:1px solid var(--line);border-radius:5px;background:var(--panel);padding:.3rem;font-size:.82rem}
+.mini{display:grid;gap:.15rem;font-size:.72rem;color:var(--muted)}
+.mini input,.mini select{width:5.2rem;border:1px solid var(--line);border-radius:5px;background:var(--panel);padding:.3rem .35rem;font-size:.82rem}
 
 /* css/07-risk.css */
 /* ---------- Risikomatrix ---------- */
@@ -761,6 +773,7 @@ p.cempty{margin:0;color:var(--muted);font-size:.8rem}
         <li><b>Rechtsklick</b> zeigt alle Aktionen: duplizieren, kopieren, einfärben, Meilenstein, einklappen, löschen.</li>
         <li><b>PSP:</b> Kasten auf einen anderen ziehen. Mitte = unterordnen, Rand = davor oder danach einsortieren.</li>
         <li><b>Gantt:</b> Balken ziehen setzt den frühesten Start (Fixtermin), die rechte Kante ändert die Dauer, der Punkt am Balkenende verknüpft mit einem anderen Balken.</li>
+        <li><b>Stunden:</b> Projekt anklicken und bei „Zeitplan in“ auf <i>Stunden</i> stellen. Dann gibt es im Gantt die Stundenansicht, und bei jedem Arbeitspaket trägst du unter „Zuständig und Stunden“ die Stunden pro Person ein. In der Tabelle geht auch „Lea K. 4h, Tim R. 6h“.</li>
         <li><b>Netzplan:</b> Kreis am Knoten auf einen anderen ziehen verknüpft. Knoten hoch oder runter ziehen wählt die Zeile.</li>
         <li><b>Pfeile</b> anklicken, um die Art (EA, AA, EE, AE) oder den Zeitabstand zu ändern.</li>
         <li>Seitenleiste und Tabelle lassen sich an ihrem Griff auf die andere Seite ziehen, wie in VS Code.</li>
@@ -1188,6 +1201,22 @@ const EN = {
   '{0} als App installieren': 'Install {0} as an app', 'Danach startet die App wie ein Programm und funktioniert offline.': 'It then starts like a program and works offline.',
   'Installieren geht, wenn die App über eine Webadresse geöffnet ist (z. B. GitHub Pages). Diese Datei funktioniert aber auch so offline.': 'Installing works when the app is opened from a web address (e.g. GitHub Pages). This file works offline as it is, too.',
   'Im Browsermenü „App installieren“ bzw. auf dem iPhone „Zum Home-Bildschirm“ wählen.': 'Choose "Install app" in the browser menu, or "Add to Home Screen" on iPhone.', '{0} ist installiert.': '{0} is installed.',
+  // Zeitplan in Stunden
+  'Stunde': 'Hour', 'Zeitplan in': 'Schedule in', 'Tagen': 'Days', 'Std. pro Tag': 'Hours per day', 'Arbeitsbeginn': 'Work starts', 'Uhrzeit': 'Time',
+  'Dauern und Zeitabstände in Stunden, z. B. für ein IHK-Projekt mit 80 h.': 'Durations and lags in hours, e.g. for a final project with 80 h.',
+  'Für stundengenaue Planung auf Stunden umstellen.': 'Switch to hours for hour-precise planning.',
+  'Zeitplan in Stunden. Dauern wurden mit {0} h pro Tag umgerechnet.': 'Schedule in hours. Durations were converted at {0} h per day.',
+  'Zeitplan in Tagen. Dauern wurden mit {0} h pro Tag umgerechnet.': 'Schedule in days. Durations were converted at {0} h per day.',
+  'Zuständig und Stunden': 'Assigned and hours', 'Person entfernen': 'Remove person', 'Stunden für diesen Vorgang': 'Hours for this task', 'Summe {0} h': 'Total {0} h',
+  'Dauer = längste Einzelzeit ({0} h), weil parallel gearbeitet wird.': 'Duration = longest single time ({0} h), since people work in parallel.',
+  'Fließt in die Personalkosten ein.': 'Used for personnel costs.',
+  'Stunden pro Person eintragen. Leer = Dauer × Stunden pro Tag.': 'Enter hours per person. Empty = duration × hours per day.',
+  'Ergibt sich aus den Stunden pro Person.': 'Comes from the hours per person.',
+  '0 = Meilenstein · „2d“ = 2 Tage · im Gantt rechte Balkenkante ziehen': '0 = milestone · "2d" = 2 days · drag the right bar edge in the Gantt',
+  'Zeitabstand in Stunden': 'Lag in hours',
+  'EA Normalfolge · AA Anfangsfolge · EE Endfolge · AE Sprungfolge. Zahl = Zeitabstand in Stunden.': 'FS finish-to-start · SS start-to-start · FF finish-to-finish · SF start-to-finish. Number = lag in hours.',
+  'Die Dauer ergibt sich aus den Stunden pro Person. Ändere die Stunden in den Eigenschaften.': 'The duration comes from the hours per person. Change the hours in the properties.',
+  'Mit Stunden: Lea K. 4h, Tim R. 6h': 'With hours: Lea K. 4h, Tim R. 6h', 'Zuständig (Stunden)': 'Assigned (hours)',
   // Kosten und Wirtschaftlichkeit
   'Stundensatz': 'Hourly rate', 'Kosten': 'Costs', 'Nutzen': 'Benefit', 'Nutzwert': 'Utility', 'Eingabe': 'Input', 'Kosten und Wirtschaftlichkeit': 'Costs and economics', 'Projektkosten, Amortisation und Nutzwertanalyse': 'Project costs, payback and utility analysis',
   'Kostenaufstellung': 'Cost breakdown', 'Nutzwertanalyse': 'Utility analysis', 'Projektkosten': 'Project costs', 'Amortisation': 'Payback', 'Amortisationsdauer': 'Payback period',
@@ -1322,7 +1351,7 @@ const HELP_EN = `<p>All three plans use the same data. Edit tasks directly in th
 <h3>Structure (WBS)</h3><ul><li>Items with sub-items are <b>summary tasks</b>. Their duration is calculated.</li><li>Items without sub-items are <b>work packages</b>. Only they get a duration and predecessors.</li><li>A duration of <code>0</code> turns a work package into a <b>milestone</b>.</li><li>WBS codes (1, 1.1, 1.1.2 …) are assigned automatically.</li></ul>
 <h3>Entering predecessors</h3><ul><li><code>1.2</code> means: starts after 1.2 finishes (finish-to-start, FS).</li><li><code>1.2, 2.1</code> several predecessors separated by commas.</li><li><code>1.2SS</code> start-to-start, <code>1.2FF</code> finish-to-finish, <code>1.2SF</code> start-to-finish.</li><li><code>1.2+2</code> or <code>1.2SS-1</code> with a lag in days.</li></ul>
 <h3>Network diagram</h3><p>ES/EF = early start/finish, LS/LF = late start/finish, D = duration, TF = total float, FF = free float. Tasks with TF = 0 are on the critical path and shown in red. Points in time count from 0 (project start).</p>
-<h3>Right in the diagram</h3><ul><li><b>Click</b> selects; the properties appear on the right. <b>Double-click</b> renames. Double-clicking empty space adds a new task.</li><li>The top row of the <b>right-click</b> menu has <b>Successor</b>, <b>Sub-item</b> and <b>After</b>.</li><li><b>Right-click</b> shows all actions: duplicate, copy, colour, milestone, collapse, delete.</li><li><b>WBS:</b> drag a box onto another. Centre = make it a sub-item, edge = place before or after.</li><li><b>Gantt:</b> dragging a bar sets the earliest start (constraint), the right edge changes the duration, the dot at the bar end links to another bar.</li><li><b>Network:</b> drag the circle on a node onto another node to link them. Drag a node up or down to choose its row.</li><li><b>Click arrows</b> to change the link type (FS, SS, FF, SF) or the lag.</li><li>Drag the sidebar and the task table by their handle to the other side, like in VS Code.</li></ul>
+<h3>Right in the diagram</h3><ul><li><b>Click</b> selects; the properties appear on the right. <b>Double-click</b> renames. Double-clicking empty space adds a new task.</li><li>The top row of the <b>right-click</b> menu has <b>Successor</b>, <b>Sub-item</b> and <b>After</b>.</li><li><b>Right-click</b> shows all actions: duplicate, copy, colour, milestone, collapse, delete.</li><li><b>WBS:</b> drag a box onto another. Centre = make it a sub-item, edge = place before or after.</li><li><b>Gantt:</b> dragging a bar sets the earliest start (constraint), the right edge changes the duration, the dot at the bar end links to another bar.</li><li><b>Hours:</b> click the project and set "Schedule in" to <i>Hours</i>. The Gantt then has an hour view, and for each work package you enter the hours per person under "Assigned and hours". In the table you can also type "Lea K. 4h, Tim R. 6h".</li><li><b>Network:</b> drag the circle on a node onto another node to link them. Drag a node up or down to choose its row.</li><li><b>Click arrows</b> to change the link type (FS, SS, FF, SF) or the lag.</li><li>Drag the sidebar and the task table by their handle to the other side, like in VS Code.</li></ul>
 <h3>Keyboard</h3><ul><li><span class="kbd">Enter</span> new task after · <span class="kbd">Tab</span> sub-item · <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> successor · <span class="kbd">Del</span> delete</li><li><span class="kbd">F2</span> or just start typing: rename · <span class="kbd">Space</span> collapse/expand · arrow keys change the selection</li><li><span class="kbd">Ctrl</span>+<span class="kbd">D</span> duplicate · <span class="kbd">Ctrl</span>+<span class="kbd">C</span>/<span class="kbd">X</span>/<span class="kbd">V</span> copy, cut, paste</li><li><span class="kbd">Alt</span>+<span class="kbd">←</span>/<span class="kbd">→</span> outdent/indent · <span class="kbd">Alt</span>+<span class="kbd">↑</span>/<span class="kbd">↓</span> move</li><li><span class="kbd">Ctrl</span>+<span class="kbd">Z</span> undo · <span class="kbd">Ctrl</span>+<span class="kbd">Shift</span>+<span class="kbd">Z</span> redo · <span class="kbd">Ctrl</span>+<span class="kbd">F</span> search · <span class="kbd">Ctrl</span>+mouse wheel zoom · <span class="kbd">Ctrl</span>+wheel click fit</li><li><span class="kbd">Ctrl</span>+<span class="kbd">N</span> new project · <span class="kbd">Ctrl</span>+<span class="kbd">O</span> open project · <span class="kbd">Ctrl</span>+<span class="kbd">S</span> save as · <span class="kbd">Ctrl</span>+<span class="kbd">E</span> settings · <span class="kbd">Ctrl</span>+<span class="kbd">B</span> sidebar on/off</li></ul>
 <h3>Diagrams (UML and ER)</h3><p>Draw use case diagrams (actors, use cases, system boundary, «include», «extend», generalization) and activity diagrams (initial and final nodes, actions, decisions with guards in [ ], merges, fork and join, partitions). Drag elements from the palette onto the canvas. To connect, drag the point on the edge of an element onto another. Releasing on empty space creates a new element right away. The right connection type is chosen automatically and can be changed on the right. Space + drag pans the view. The status bar checks the notation, e.g. missing initial nodes or guards. On top of that there are ER diagrams in Chen notation (entities, relationships as diamonds, attributes, cardinalities like 1, n or (0,n)) and in crow's foot notation (tables with PK and FK, symbols for 1, 0..1, 1..n and 0..n at the line ends). Elements snap to the grid by their centre, and guides show what they line up with while moving. Click a line to drag its points and change its course, double-click a bend to remove it. Colours, font and lines are set on the right under "Format", Ctrl+Shift+C/V copies a format. On a tablet, pinch with two fingers to zoom and long-press to open the menu.</p>
 <h3>Costs and economics</h3><p>The app calculates personnel costs from the plan: duration of the work packages in days × hours per day × hourly rate of the responsible person. Hours and rates can be overridden per person, and you can add more people. On top come workplace costs per hour and material or external costs, one-off or yearly. Under "Benefit" you enter what the project saves every year, also as saved hours per month. This gives the static payback calculation with a chart. Under "Utility" you compare options: weight the criteria (100 % in total), score every option with 1–5 or 1–10 points, and the highest utility wins.</p><h3>Risk matrix</h3><p>Each risk is rated by probability (P) and impact (I) from 1 to 5. The score P × I gives the class: 1–4 low, 5–9 medium, 10–15 high, 16–25 critical. Every risk has a strategy (avoid, reduce, transfer, accept), a mitigation and optionally the residual risk afterwards.</p><h3>PDF editor</h3><p>Pick a tool at the top and click or drag on the page: Text, Note, Pen, Marker, Eraser (pixel or object), Highlight, Cover, Rectangle, Ellipse, Line, Arrow, Image, Signature and Stamp. With Select you can click any object: drag to move, use the handles to resize and the round handle to rotate (Shift = 15° steps). The properties panel on the right sets colour, fill, opacity, line style, font, image adjustments and exact position, size and rotation. Ctrl+C/V/D copies, pastes and duplicates, Ctrl+[ and ] change the order, Ctrl+L locks. Images can also be pasted with Ctrl+V or dropped onto the page. Above each page you can move, rotate, duplicate it, insert a blank page or delete it.</p>
@@ -1337,6 +1366,8 @@ const HELP_SAVE_DE = `<h3>Diagramme (UML und ER)</h3><p>Zeichne Anwendungsfalldi
 const DAY = 864e5;
 const WD_DE = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'], WD_EN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 let WD = WD_DE;
+const WDL_DE = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'], WDL_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+let WDL = WDL_DE;
 const MON_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const MON_DE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 const MON_S_DE = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'], MON_S_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -1449,14 +1480,28 @@ function buildModel(p) {
   return { byId, kids, code, level, flat, isLeaf, byCode };
 }
 
+// Zuständige mit Stunden: "Lea K. 4h, Tim R. 6" -> [{n, h}]
+function parseWork(str) {
+  return String(str || '').split(/[,;\n]/).map(t => t.trim()).filter(Boolean).map(t => {
+    const m = t.match(/^(.*?)[\s:]*(\d+(?:[.,]\d+)?)\s*(h|std\.?|stunden|hours?)?$/i);
+    return m && m[1].trim() ? { n: m[1].trim(), h: Math.round(+m[2].replace(',', '.') * 4) / 4 } : { n: t, h: 0 };
+  });
+}
+const fmtH = h => (Math.round(h * 100) / 100).toLocaleString(LANG === 'en' ? 'en-GB' : 'de-DE');
+const workStr = it => (it.work && it.work.length) ? it.work.map(w => w.h ? `${w.n} ${fmtH(w.h)}h` : w.n).join(', ') : (it.resp || '');
+const workSum = it => (it.work || []).reduce((a, w) => a + (w.h || 0), 0);
 function sanitize(p) {
   const ids = new Set(p.items.map(i => i.id));
+  p.unit = p.unit === 'h' ? 'h' : 'd'; p.hpd = clamp(Math.round(+p.hpd || 8), 1, 24); p.dayStart = clamp(+p.dayStart >= 0 ? +p.dayStart : 8, 0, 23);
   for (const it of p.items) {
     if (!it.id) it.id = uid();
     it.name = String(it.name ?? '');
     it.duration = Math.max(0, Math.round(+it.duration || 0));
     it.progress = clamp(Math.round(+it.progress || 0), 0, 100);
     it.resp = String(it.resp ?? '');
+    if (it.minStart && !/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2})?$/.test(it.minStart)) it.minStart = '';
+    it.work = Array.isArray(it.work) ? it.work.filter(w => w && typeof w === 'object' && String(w.n ?? '').trim()).map(w => ({ n: String(w.n).trim(), h: Math.max(0, Math.round((+w.h || 0) * 4) / 4) })) : [];
+    if (it.work.length) it.resp = it.work.map(w => w.n).join(', ');
     if (!Array.isArray(it.deps)) it.deps = [];
     if (it.parent && (!ids.has(it.parent) || it.parent === it.id)) it.parent = null;
   }
@@ -1487,6 +1532,21 @@ function sanitize(p) {
   sanitizeCost(p);
   return dropped;
 }
+// Zeiteinheit wechseln (Tage <-> Stunden): Dauern und Zeitabstände umrechnen
+function setUnit(u) {
+  if (u === project.unit) return;
+  const k = project.hpd || 8;
+  commit(() => {
+    project.items.forEach(it => {
+      it.duration = u === 'h' ? (+it.duration || 0) * k : Math.ceil((+it.duration || 0) / k);
+      (it.deps || []).forEach(d => { if (d.lag) d.lag = u === 'h' ? d.lag * k : Math.round(d.lag / k); });
+      if (it.minStart) it.minStart = String(it.minStart).slice(0, 10);
+    });
+    project.unit = u;
+  });
+  const z = settings.gantt.zoom; settings.gantt.zoom = u === 'h' ? 'hour' : (z === 'hour' ? 'day' : z); saveSettings(); renderToolbar(); renderDiagram();
+  toast(tr(u === 'h' ? 'Zeitplan in Stunden. Dauern wurden mit {0} h pro Tag umgerechnet.' : 'Zeitplan in Tagen. Dauern wurden mit {0} h pro Tag umgerechnet.', project.hpd));
+}
 function findCycleNode(p, M) {
   const leaves = p.items.filter(i => M.isLeaf(i.id));
   const indeg = new Map(leaves.map(i => [i.id, i.deps.length]));
@@ -1503,7 +1563,7 @@ function makeCalendar(p) {
   const hol = new Set((p.holidays || []).map(h => toDay(typeof h === 'string' ? h : h.date)).filter(Number.isFinite));
   const isWork = n => !(p.workdaysOnly && (dow(n) === 0 || dow(n) === 6)) && !hol.has(n);
   const days = [];
-  const wd = i => {
+  const wdD = i => {
     i = Math.max(0, Math.floor(i));
     while (days.length <= i) {
       let n = days.length ? days[days.length - 1] + 1 : start, g = 0;
@@ -1513,17 +1573,30 @@ function makeCalendar(p) {
     return days[i];
   };
   // kleinster Index i mit wd(i) >= n
-  const indexOf = n => {
-    if (!Number.isFinite(n) || n <= wd(0)) return 0;
-    let hi = 1; while (wd(hi) < n && hi < 1e5) hi *= 2;
-    let lo = 0; while (lo < hi) { const m = (lo + hi) >> 1; if (wd(m) < n) lo = m + 1; else hi = m; }
+  const indexOfD = n => {
+    if (!Number.isFinite(n) || n <= wdD(0)) return 0;
+    let hi = 1; while (wdD(hi) < n && hi < 1e5) hi *= 2;
+    let lo = 0; while (lo < hi) { const m = (lo + hi) >> 1; if (wdD(m) < n) lo = m + 1; else hi = m; }
     return lo;
   };
-  return { isWork, wd, hol, start, indexOf };
+  // Zeiteinheit: 1 = Tage, sonst Arbeitsstunden pro Tag (Stundenplanung)
+  const U = p.unit === 'h' ? p.hpd : 1, ds = p.dayStart ?? 8;
+  const wd = i => wdD(Math.floor(Math.max(0, i) / U));                 // Tag der Einheit i
+  const indexOf = n => indexOfD(Math.floor(n)) * U;                     // erste Einheit am/nach Tag n
+  const pos = i => { i = Math.max(0, i); return wdD(Math.floor(i / U)) + (i % U) / U; }; // Position (Tag + Bruchteil)
+  const endPos = i => pos(i) + 1 / U;                                   // Ende der Einheit i
+  const idxAt = x => { const d = Math.floor(x + 1e-9); if (!isWork(d) || d < wdD(0)) return indexOfD(d) * U; return indexOfD(d) * U + clamp(Math.round((x - d) * U), 0, U); };
+  const clock = h => { const t = ds + h, hh = Math.floor(t), mm = Math.round((t - hh) * 60); return pad2(hh) + ':' + pad2(mm); };
+  const tStart = i => U > 1 ? clock(((i % U) + U) % U) : '';            // Uhrzeit am Anfang der Einheit
+  const tEnd = i => U > 1 ? clock((((i % U) + U) % U) + 1) : '';         // Uhrzeit am Ende der Einheit
+  const fromStr = str => { const m = /^(\d{4}-\d{2}-\d{2})(?:T(\d{1,2})(?::(\d{2}))?)?$/.exec(String(str || '')); if (!m) return 0; const base = indexOf(toDay(m[1])); if (U === 1 || m[2] == null) return base; return base + clamp(Math.round(+m[2] + (+m[3] || 0) / 60 - ds), 0, U - 1); };
+  const toStr = i => U > 1 ? `${toISO(wd(i))}T${clock(((i % U) + U) % U)}` : toISO(wd(i));
+  return { isWork, wd, hol, start, indexOf, U, pos, endPos, idxAt, tStart, tEnd, fromStr, toStr, clock };
 }
 
 function schedule(p, M, cal) {
   const leaves = M.flat.filter(it => M.isLeaf(it.id));
+  if (p.unit === 'h') leaves.forEach(it => { const mx = Math.max(0, ...(it.work || []).map(w => w.h || 0)); if (mx > 0) it.duration = Math.ceil(mx); });
   const S = new Map(); leaves.forEach(t => S.set(t.id, { D: Math.max(0, Math.round(+t.duration || 0)) }));
   const succ = new Map(leaves.map(t => [t.id, []])), preds = new Map(leaves.map(t => [t.id, []])), edges = [];
   leaves.forEach(t => (t.deps || []).forEach(d => {
@@ -1539,7 +1612,7 @@ function schedule(p, M, cal) {
     const s = S.get(id); let f = 0, drv = null;
     preds.get(id).forEach(e => { if (S.get(e.from).FEZ === undefined) return; const v = implied(e); if (v > f) { f = v; drv = e.from; } else if (v === f && v > 0 && !drv) drv = e.from; });
     s.FAZdep = f; s.driver = drv;
-    const it = M.byId.get(id); const mi = it.minStart ? cal.indexOf(toDay(it.minStart)) : 0;
+    const it = M.byId.get(id); const mi = it.minStart ? cal.fromStr(it.minStart) : 0;
     s.constrained = mi > f; if (mi > f) f = mi;
     s.FAZ = f; s.FEZ = f + s.D;
   });
@@ -1579,7 +1652,7 @@ function isHidden(id) { const M = state.M; let p = M.byId.get(id)?.parent; while
 function visibleFlat() { return state.M.flat.filter(it => !isHidden(it.id)); }
 function descCount(id) { let n = 0; (state.M.kids.get(id) || []).forEach(k => { n += 1 + descCount(k.id); }); return n; }
 const itemById = id => state.M.byId.get(id);
-const unit = () => LANG === 'en' ? (project.workdaysOnly ? 'WD' : 'd') : (project.workdaysOnly ? 'AT' : 'T');
+const unit = () => project.unit === 'h' ? 'h' : LANG === 'en' ? (project.workdaysOnly ? 'WD' : 'd') : (project.workdaysOnly ? 'AT' : 'T');
 const fmtDur = d => d + ' ' + unit();
 function info(id) {
   const { M, SC, cal } = state;
@@ -1590,7 +1663,11 @@ function info(id) {
   const ms = leaf && s.D === 0;
   const start = ms ? (s.FAZ > 0 ? cal.wd(s.FAZ - 1) : cal.wd(0)) : cal.wd(s.FAZ);
   const end = s.FEZ > s.FAZ ? cal.wd(s.FEZ - 1) : start;
-  return { id, it, s, leaf, ms, sum: !leaf, start, end, progress: leaf ? (+it.progress || 0) : (s.progress || 0) };
+  // Positionen für den Gantt (bei Stundenplanung mit Bruchteilen eines Tages)
+  const p0 = ms ? (s.FAZ > 0 ? cal.endPos(s.FAZ - 1) : cal.pos(0)) : cal.pos(s.FAZ), p1 = s.FEZ > s.FAZ ? cal.endPos(s.FEZ - 1) : p0;
+  const t0 = fmtDate(start) + (cal.U > 1 ? ' ' + (ms ? (s.FAZ > 0 ? cal.tEnd(s.FAZ - 1) : cal.tStart(0)) : cal.tStart(s.FAZ)) : '');
+  const t1 = fmtDate(end) + (cal.U > 1 ? ' ' + (s.FEZ > s.FAZ ? cal.tEnd(s.FEZ - 1) : t0.slice(-5)) : '');
+  return { id, it, s, leaf, ms, sum: !leaf, start, end, p0, p1, t0, t1, progress: leaf ? (+it.progress || 0) : (s.progress || 0) };
 }
 function depsToString(it) {
   return (it.deps || []).map(d => { const c = state.M.code.get(d.id); if (!c) return null; let t = c; if (d.type && d.type !== 'EA') t += depCode(d.type); if (d.lag) t += (d.lag > 0 ? '+' : '') + d.lag; return t; }).filter(Boolean).join(', ');
@@ -1598,7 +1675,7 @@ function depsToString(it) {
 function parseDeps(str, it) {
   const out = [], errs = [], M = state.M;
   for (const tok of String(str).split(/[,;]/).map(s => s.trim()).filter(Boolean)) {
-    const m = tok.match(/^(\d+(?:\.\d+)*)\s*(EA|AA|EE|AE|FS|SS|FF|SF)?\s*(?:([+-])\s*(\d+))?\s*(?:AT|WD|T|d)?$/i);
+    const m = tok.match(/^(\d+(?:\.\d+)*)\s*(EA|AA|EE|AE|FS|SS|FF|SF)?\s*(?:([+-])\s*(\d+))?\s*(?:AT|WD|T|d|h|Std)?$/i);
     if (!m) { errs.push(LANG === 'en' ? `I don't understand "${tok}". Example: 1.2 or 1.2SS+1` : `„${tok}“ verstehe ich nicht. Beispiel: 1.2 oder 1.2AA+1`); continue; }
     const id = M.byCode.get(m[1]);
     if (!id) { errs.push(LANG === 'en' ? `There is no task ${m[1]}.` : `Einen Vorgang ${m[1]} gibt es nicht.`); continue; }
@@ -1972,10 +2049,12 @@ function renderNetLegend(P, f, x, y) {
    Gantt-Diagramm
    ===================================================================== */
 const PPD = { day: 42, week: 22, month: 6.5 };
+// Pixel pro Kalendertag; in der Stundenansicht pro Arbeitstag (U Stunden)
+const ganttPPD = mode => mode === 'hour' ? 34 * (state.cal.U || 8) : PPD[mode];
 function ganttLayout(f, showResp, compact, interactive) {
   const { M } = state; const small = f * .9, indent = 14, nameMax = 300;
   const rows = [Object.assign(info('__root'), { lv: 0, code: '0', name: project.name, resp: project.manager || '', hasKids: false })];
-  (interactive ? visibleFlat() : M.flat).forEach(it => rows.push(Object.assign(info(it.id), { lv: M.level.get(it.id), code: M.code.get(it.id), name: it.name, resp: it.resp || '', hasKids: (M.kids.get(it.id) || []).length > 0, collapsed: !!it.collapsed })));
+  (interactive ? visibleFlat() : M.flat).forEach(it => rows.push(Object.assign(info(it.id), { lv: M.level.get(it.id), code: M.code.get(it.id), name: it.name, resp: workStr(it), hasKids: (M.kids.get(it.id) || []).length > 0, collapsed: !!it.collapsed })));
   rows.forEach(r => {
     r.wt = r.sum ? 600 : 400;
     r.lines = wrap(r.name || tr('Ohne Bezeichnung'), nameMax - r.lv * indent, f, r.wt);
@@ -1986,11 +2065,11 @@ function ganttLayout(f, showResp, compact, interactive) {
     { k: 'code', t: 'Nr.', w: Math.max(42, ...rows.map(r => tw(r.code, small, 400, true))) + 18 },
     { k: 'name', t: 'Vorgang', w: clamp(Math.max(...rows.map(r => r.nameW)) + 22, 170, nameMax + 22) },
     { k: 'dur', t: 'Dauer', w: Math.max(tw(tr('Dauer').toUpperCase(), small, 600), tw('999 ' + unit(), small, 400, true)) + 20, a: 'end' },
-    { k: 'start', t: 'Anfang', w: Math.max(tw(tr('Anfang').toUpperCase(), small, 600), tw(fmtDate(today()), small, 400, true)) + 20 },
-    { k: 'end', t: 'Ende', w: Math.max(tw(tr('Ende').toUpperCase(), small, 600), tw(fmtDate(today()), small, 400, true)) + 20 }
+    { k: 'start', t: 'Anfang', w: Math.max(tw(tr('Anfang').toUpperCase(), small, 600), tw(rows[0].t0, small, 400, true)) + 20 },
+    { k: 'end', t: 'Ende', w: Math.max(tw(tr('Ende').toUpperCase(), small, 600), tw(rows[0].t1, small, 400, true)) + 20 }
   ];
   if (compact) cols.splice(2);
-  if (showResp && !compact) cols.push({ k: 'resp', t: 'Verantwortlich', w: clamp(Math.max(tw(tr('Verantwortlich').toUpperCase(), small, 600), ...rows.map(r => tw(r.resp, small))) + 22, 110, 190) });
+  if (showResp && !compact) cols.push({ k: 'resp', t: 'Verantwortlich', w: clamp(Math.max(tw(tr('Verantwortlich').toUpperCase(), small, 600), ...rows.map(r => tw(r.resp, small))) + 22, 110, 240) });
   const TW = cols.reduce((a, c) => a + c.w, 0);
   const hRow = Math.round(f * 2.2);
   return { rows, cols, TW, headerH: hRow * 2, hRow, legendH: Math.round(f * 3.2), small, indent };
@@ -2001,12 +2080,14 @@ function ganttRange(rows, mode) {
   rows.forEach(r => { lo = Math.min(lo, r.start); hi = Math.max(hi, r.end); if (r.leaf && r.s.GP > 0) hi = Math.max(hi, cal.wd(Math.max(r.s.SEZ - 1, 0))); });
   hi = Math.max(hi, cal.wd(Math.max(SC.E - 1, 0)));
   if (mode === 'month') return [firstOfMonth(lo - 3), nextMonth(hi + 3)];
+  if (mode === 'hour') return [lo, hi + 2];
   return [mondayOf(lo - 1), mondayOf(hi + 1) + 7 + (mode === 'week' ? 7 : 0)];
 }
 function headerUnits(kind, d0, d1) {
   const U = [];
   if (kind === 'day') for (let n = d0; n < d1; n++) U.push([n, n + 1]);
   else if (kind === 'week') for (let n = mondayOf(d0); n < d1; n += 7) U.push([n, n + 7]);
+  else if (kind === 'hour') { const cal = state.cal; for (let n = d0; n < d1; n++) if (cal.isWork(n)) for (let h = 0; h < cal.U; h++) U.push([n + h / cal.U, n + (h + 1) / cal.U, n, h]); return U; }
   else if (kind === 'month') for (let n = firstOfMonth(d0); n < d1; n = nextMonth(n)) U.push([n, nextMonth(n)]);
   else for (let n = firstOfYear(d0); n < d1; n = nextYear(n)) U.push([n, nextYear(n)]);
   return U.map(([s, e]) => [Math.max(s, d0), Math.min(e, d1), s]);
@@ -2016,8 +2097,13 @@ function renderGantt(P, o, L) {
   const mode = o.mode, ppd = o.ppd, d0 = o.d0, d1 = o.d1;
   const rows = L.rows.slice(o.r0 ?? 0, o.r1 ?? L.rows.length);
   const TW = L.TW, HH = L.headerH, hRow = L.hRow;
-  const X = n => TW + (n - d0) * ppd;
-  const W = TW + (d1 - d0) * ppd;
+  // Zeitachse: in der Stundenansicht werden freie Tage schmal dargestellt
+  const comp = mode === 'hour', wFree = Math.max(16, ppd * .07), off = [0];
+  for (let n = d0; n < d1; n++) off.push(off[off.length - 1] + (comp && !cal.isWork(n) ? wFree : ppd));
+  const dw = n => off[n - d0 + 1] - off[n - d0];
+  const X = n => { if (n <= d0) return TW + (n - d0) * ppd; if (n >= d1) return TW + off[d1 - d0] + (n - d1) * ppd; const k = Math.floor(n); return TW + off[k - d0] + (n - k) * dw(k); };
+  const posAt = x => { const v = x - TW; if (v <= 0) return d0 + v / ppd; let lo = 0, hi = d1 - d0; if (v >= off[hi]) return d1 + (v - off[hi]) / ppd; while (hi - lo > 1) { const m = (lo + hi) >> 1; if (off[m] <= v) lo = m; else hi = m; } return d0 + lo + (v - off[lo]) / dw(d0 + lo); };
+  const W = X(d1);
   let y = HH; rows.forEach(r => { r.y = y; y += r.h; });
   const bodyH = y - HH, addH = o.interactive ? Math.round(f * 2.4) : 0;
   // Legende vorab umbrechen, damit nichts am Rand abgeschnitten wird
@@ -2037,11 +2123,14 @@ function renderGantt(P, o, L) {
     else if (o.hits && o.hits.has(r.id)) bg += R(0, r.y, W, r.h, { fill: mix('#e3a400', P.bg, P.dark ? .74 : .8) });
     else if (r.sum) bg += R(0, r.y, W, r.h, { fill: P.stripe });
   });
-  if (mode !== 'month') for (let n = d0; n < d1; n++) if (!cal.isWork(n)) grid += R(X(n), HH, ppd, gridH, { fill: P.weekend });
-  const kinds = { day: ['week', 'day'], week: ['month', 'week'], month: ['year', 'month'] }[mode];
+  if (mode !== 'month') for (let n = d0; n < d1; n++) if (!cal.isWork(n)) grid += R(X(n), HH, dw(n), gridH, { fill: P.weekend });
+  const kinds = { hour: ['day', 'hour'], day: ['week', 'day'], week: ['month', 'week'], month: ['year', 'month'] }[mode];
   head += R(0, 0, W, HH, { fill: P.header });
-  const label = (kind, s, e, s0) => {
-    const wpx = (e - s) * ppd; const [yy, mm, dd] = ymd(s0);
+  const hourFull = mode === 'hour' && tw('00:00', small * .86) + 8 <= ppd / cal.U;
+  const label = (kind, s, e, s0, hh) => {
+    const wpx = X(e) - X(s); const [yy, mm, dd] = ymd(s0);
+    if (kind === 'hour') { const c = cal.clock(hh); return hourFull ? c : (tw('00', small * .86) + 4 <= wpx ? c.slice(0, 2) : ''); }
+    if (kind === 'day' && mode === 'hour') { if (!cal.isWork(s0)) return ''; for (const t of [WDL[dow(s0)] + ', ' + fmtDate(s0), WD[dow(s0)] + ' ' + fmtDate(s0), WD[dow(s0)] + ' ' + dd]) if (tw(t, small) + 14 < wpx) return t; return ''; }
     if (kind === 'day') { const t = WD[dow(s0)] + ' ' + dd; return tw(t, small * .92) + 10 <= wpx ? t : (tw(String(dd), small * .92) + 6 <= wpx ? String(dd) : ''); }
     if (kind === 'week') { const k = isoWeek(s0); if (mode === 'day') { const t = `${tr('KW')} ${k} · ${MON_S[mm]} ${yy}`; return tw(t, small) + 10 < wpx ? t : (wpx > 44 ? tr('KW') + ' ' + k : ''); } return wpx >= 44 ? tr('KW') + ' ' + k : (wpx >= 18 ? String(k) : ''); }
     if (kind === 'month') { for (const t of [MON[mm] + ' ' + yy, MON_S[mm] + ' ' + String(yy).slice(2), MON_S[mm]]) if (tw(t, small) + 10 < wpx) return t; return wpx > 12 ? MON_S[mm][0] : ''; }
@@ -2050,13 +2139,15 @@ function renderGantt(P, o, L) {
   const tday = today();
   kinds.forEach((kind, li) => {
     const yT = li * hRow;
-    headerUnits(kind, d0, d1).forEach(([s, e, s0]) => {
+    headerUnits(kind, d0, d1).forEach(([s, e, s0, hh]) => {
       if (li === 0) head += Lx(X(s), yT + hRow * .25, X(s), yT + hRow, P.gridStrong);
-      const t = label(kind, s, e, s0), now = li === 1 && tday >= s && tday < e && o.showToday;
+      const t = label(kind, s, e, s0, hh), now = li === 1 && mode !== 'hour' && tday >= s && tday < e && o.showToday;
+      const nowDay = mode === 'hour' && li === 0 && s0 === tday && o.showToday;
       if (t) {
-        const cxm = li === 1 ? X(s) + (e - s) * ppd / 2 : X(s) + 8, ty = yT + hRow / 2 + small * .34;
+        const cxm = li === 1 ? (X(s) + X(e)) / 2 : X(s) + 8, ty = yT + hRow / 2 + small * .34;
+        if (nowDay) { head += T(cxm, ty, t, { size: small, weight: 700, fill: P.accent }); return void (grid += Lx(X(s), HH, X(s), HH + gridH, P.gridStrong, 1)); }
         if (now) { const pw = tw(t, small * .92, 700) + 14; head += R(cxm - pw / 2, yT + hRow / 2 - small * .85, pw, small * 1.7, { rx: small * .85, fill: P.accent }); }
-        head += T(cxm, ty, t, { size: li ? small * .92 : small, weight: li ? (now ? 700 : 500) : 650, fill: now ? P.rootText : li ? P.muted : P.text, anchor: li === 1 ? 'middle' : null });
+        head += T(cxm, ty, t, { size: li ? small * (kind === 'hour' ? .86 : .92) : small, weight: li ? (now ? 700 : 500) : 650, fill: now ? P.rootText : li ? P.muted : P.text, anchor: li === 1 ? 'middle' : null });
       }
       grid += Lx(X(s), HH, X(s), HH + gridH, li === 1 ? P.grid : P.gridStrong, li === 1 ? .7 : 1);
     });
@@ -2070,7 +2161,7 @@ function renderGantt(P, o, L) {
     let x = 0; const ty = r.y + r.h / 2 + small * .36;
     L.cols.forEach(c => {
       let v = '';
-      if (c.k === 'code') v = r.code; else if (c.k === 'dur') v = fmtDur(r.s.D); else if (c.k === 'start') v = fmtDate(r.start); else if (c.k === 'end') v = fmtDate(r.end); else if (c.k === 'resp') v = r.resp;
+      if (c.k === 'code') v = r.code; else if (c.k === 'dur') v = fmtDur(r.s.D); else if (c.k === 'start') v = r.t0; else if (c.k === 'end') v = r.t1; else if (c.k === 'resp') v = r.resp;
       if (c.k === 'name') {
         const nx = x + 12 + r.lv * L.indent, cy = r.y + r.h / 2;
         if (o.interactive) cells += `<rect data-name="${r.id}" x="${rd(x)}" y="${rd(r.y)}" width="${rd(c.w)}" height="${r.h}" fill="none" pointer-events="none"/>`;
@@ -2090,17 +2181,17 @@ function renderGantt(P, o, L) {
     const col = r.it && r.it.color;
     const isSel = o.sel === r.id;
     if (r.ms) {
-      const x = r.s.FAZ > 0 ? X(r.start) + ppd : X(r.start);
+      const x = X(r.p0);
       pos.set(r.id, { x0: x, x1: x, cy });
       const s = Math.min(f * .78, r.h * .34), c = crit && r.s.crit ? P.crit : (col || P.ms);
       bars += o.interactive ? `<g data-bar="${r.id}"${isSel ? ' class="is-sel"' : ''}>` : '<g>';
       bars += `<path data-main="1" d="M${rd(x)},${rd(cy - s)} L${rd(x + s)},${rd(cy)} L${rd(x)},${rd(cy + s)} L${rd(x - s)},${rd(cy)} Z" fill="${c}" stroke="${isSel ? P.text : P.bg}" stroke-width="${isSel ? 2 : 1.5}" stroke-linejoin="round"/>`;
-      bars += T(x + s + (o.interactive ? 20 : 6), cy + small * .36, fmtDate(r.start).slice(0, 6), { size: small * .92, fill: P.muted });
+      bars += T(x + s + (o.interactive ? 20 : 6), cy + small * .36, fmtDate(r.start).slice(0, 6) + (cal.U > 1 ? ' ' + r.t0.slice(-5) : ''), { size: small * .92, fill: P.muted });
       if (o.interactive) bars += `<rect x="${rd(x - s - 3)}" y="${rd(cy - s - 3)}" width="${rd(2 * s + 6)}" height="${rd(2 * s + 6)}" fill="transparent"/>` + linkHandle(x + s + 9, cy, r.id, P);
       bars += '</g>';
       return;
     }
-    const x0 = X(r.start), x1 = X(r.end) + ppd;
+    const x0 = X(r.p0), x1 = X(r.p1);
     pos.set(r.id, { x0, x1, cy });
     if (r.sum) {
       // Sammelvorgang: schmaler, runder Balken mit dezentem Fortschritt
@@ -2123,7 +2214,7 @@ function renderGantt(P, o, L) {
     if (inside) bars += T(x0 + 8, cy + small * .32, nm, { size: small * .9, weight: 600, fill: tc });
     let lx = x1 + 8;
     if (o.showFloat && r.s.GP > 0) {
-      const fx = X(cal.wd(r.s.SEZ - 1)) + ppd;
+      const fx = X(cal.endPos(r.s.SEZ - 1));
       if (fx > x1 + 1) { bars += Lx(x1, cy, fx, cy, P.float, 1.6, '3 2') + Lx(fx, cy - 4, fx, cy + 4, P.float, 1.6); lx = fx + 7; }
     }
     // Beschriftung rechts vom Balken: mit Name, wenn Platz ist, sonst nur Verantwortlicher und Fortschritt (nie über den Rand)
@@ -2154,7 +2245,7 @@ function renderGantt(P, o, L) {
     deps += o.interactive ? `<g data-edge="${key}"><path d="${d}" fill="none" stroke="transparent" stroke-width="8"/>` : '<g>';
     deps += `<path d="${d}" fill="none" stroke="${col}" stroke-width="${sel ? 2.4 : isC ? 1.6 : 1.3}" stroke-linejoin="round"/>` + arrowHead(tip[0], tip[1], dir, col, 6) + '</g>';
   });
-  if (o.showToday && bodyH > small * 2) { const t = today(); if (t >= d0 && t < d1) { const x = X(t) + ppd / 2; over += `<g pointer-events="none">` + Lx(x, HH, x, HH + gridH, P.accent, 1.6) + `<circle cx="${rd(x)}" cy="${rd(HH)}" r="4" fill="${P.accent}"/>` + '</g>'; } }
+  if (o.showToday && bodyH > small * 2) { const t = today(); if (t >= d0 && t < d1) { const nw = new Date(), hn = nw.getHours() + nw.getMinutes() / 60; const x = comp ? X(t + (cal.isWork(t) ? clamp((hn - (project.dayStart ?? 8)) / cal.U, 0, 1) : .5)) : X(t + .5); over += `<g pointer-events="none">` + Lx(x, HH, x, HH + gridH, P.accent, 1.6) + `<circle cx="${rd(x)}" cy="${rd(HH)}" r="4" fill="${P.accent}"/>` + '</g>'; } }
   if (o.interactive) { const ay = HH + bodyH; over += `<g data-act="add-end"><title>${tr('Neuen Vorgang anlegen')}</title>${R(0, ay, TW, addH, { fill: 'transparent' })}${T(L.cols[0].w + 12, ay + addH / 2 + small * .36, tr('+ Vorgang hinzufügen'), { size: small, weight: 600, fill: P.accent })}</g>`; }
   let leg = '';
   if (o.legend) {
@@ -2167,7 +2258,7 @@ function renderGantt(P, o, L) {
     };
     legItems.forEach(([k, t], i) => { const [x, line] = legPos[i], yy = ly0 + Math.round(f * .6) + line * legRow + legRow / 2; leg += SYM[k](x, yy) + T(x + 30, yy + s * .36, tr(t), { size: s, fill: P.muted }); });
   }
-  if (o.interactive) state.gv = { d0, ppd, TW, HH, rows: rows.map(r => ({ id: r.id, y: r.y, h: r.h, leaf: r.leaf, ms: r.ms })) };
+  if (o.interactive) state.gv = { d0, ppd, TW, HH, X, posAt, rows: rows.map(r => ({ id: r.id, y: r.y, h: r.h, leaf: r.leaf, ms: r.ms })) };
   const boxes = rows.map(r => ({ x: 0, y: r.y, w: W, h: r.h }));
   return { w: W, h: H, inner: bg + grid + cells + bars + deps + head + over + leg, boxes };
 }
@@ -3823,7 +3914,10 @@ function costPlanHours() {
   const parents = new Set(project.items.map(i => i.parent).filter(Boolean)), hpd = project.cost.hpd, m = new Map();
   project.items.forEach(it => {
     if (parents.has(it.id) || !(it.duration > 0)) return;
-    const ps = splitPeople(it.resp); (ps.length ? ps : ['']).forEach(p => m.set(p, (m.get(p) || 0) + it.duration * hpd));
+    // Stunden pro Person, sonst Dauer × Stunden pro Tag (bei Stundenplanung: Dauer in Stunden)
+    const per = it.duration * (project.unit === 'h' ? 1 : hpd), add = (p, h) => m.set(p, (m.get(p) || 0) + h);
+    if ((it.work || []).length) { it.work.forEach(w => add(w.n, w.h > 0 ? w.h : per)); return; }
+    const ps = splitPeople(it.resp); (ps.length ? ps : ['']).forEach(p => add(p, per));
   });
   return m;
 }
@@ -4163,15 +4257,15 @@ function renderView(view, P, interactive) {
   if (view === 'cost') return renderCost(P, o);
   if (view === 'risk') return renderRisk(P, { ...o, selRisk: interactive ? state.selRisk : null });
   const L = ganttLayout(o.f, o.showResp, interactive && (settings.panelOpen || window.innerWidth <= 900), interactive);
-  const mode = settings.gantt.zoom; let [d0, d1] = ganttRange(L.rows, mode), minH = 0;
+  const mode = settings.gantt.zoom === 'hour' && project.unit !== 'h' ? 'day' : settings.gantt.zoom; let [d0, d1] = ganttRange(L.rows, mode), minH = 0;
   if (interactive) {
     // Zeitachse und Fläche bis an den Rand ziehen, damit der Plan nicht gequetscht wirkt
     const c = $('#canvas'), z = state.zoom.gantt || 1, [pl, ptp] = cpad();
     const availW = (c.clientWidth - pl * 2) / z; minH = (c.clientHeight - ptp * 2) / z;
-    const step = n => mode === 'month' ? nextMonth(n) : n + (mode === 'week' ? 7 : 1);
-    for (let g = 0; g < 400 && L.TW + (d1 - d0) * PPD[mode] < availW; g++) d1 = step(d1);
+    const step = n => mode === 'month' ? nextMonth(n) : n + (mode === 'week' ? 7 : 1), ppd = ganttPPD(mode);
+    for (let g = 0; g < 400 && L.TW + (d1 - d0) * ppd < availW; g++) d1 = step(d1);
   }
-  return renderGantt(P, { ...o, mode, ppd: PPD[mode], d0, d1, legend: true, minH }, L);
+  return renderGantt(P, { ...o, mode, ppd: ganttPPD(mode), d0, d1, legend: true, minH }, L);
 }
 
 let rafId = 0;
@@ -4295,7 +4389,7 @@ function renderToolbar() {
   if (v === 'pdf') { tb.innerHTML = `<button class="btn icon ghost" id="tbHelp" title="Hilfe">${ICON.help}</button>`; $('#tbHelp').onclick = () => openModal('helpModal'); return; }
   let h = '';
   if (v === 'psp') h += `<div class="seg" data-seg="psp.mode"><button data-v="mixed">Mischform</button><button data-v="tree">Baum</button></div>`;
-  if (v === 'gantt') h += `<div class="seg" data-seg="gantt.zoom"><button data-v="day">Tag</button><button data-v="week">Woche</button><button data-v="month">Monat</button></div><button class="btn" id="tbToday" title="Zum heutigen Tag springen">Heute</button>`;
+  if (v === 'gantt') h += `<div class="seg" data-seg="gantt.zoom">${project.unit === 'h' ? '<button data-v="hour">Stunde</button>' : ''}<button data-v="day">Tag</button><button data-v="week">Woche</button><button data-v="month">Monat</button></div><button class="btn" id="tbToday" title="Zum heutigen Tag springen">Heute</button>`;
   if (v === 'net') h += `<button class="btn" id="tbArrange" title="Manuell verschobene Knoten wieder automatisch anordnen">${ICON.arrange}Neu anordnen</button>`;
   if (v === 'uml') h += umlToolbarHtml();
   if (v === 'risk') h += `<button class="btn" id="tbAddRisk" title="Neues Risiko (Einfg)">${ICON.plus}Risiko</button>`;
@@ -4305,7 +4399,7 @@ function renderToolbar() {
   h += `<button class="btn icon ghost${settings.panelOpen ? ' on' : ''}" id="tbPanel" title="Tabelle ein-/ausblenden">${ICON.table}</button><button class="btn icon ghost${settings.inspector ? ' on' : ''}" id="tbInsp" title="Eigenschaften ein-/ausblenden">${ICON.side}</button><button class="btn icon ghost" id="tbUndo" title="Rückgängig (Strg+Z)">${ICON.undo}</button><button class="btn icon ghost" id="tbRedo" title="Wiederholen (Strg+Umschalt+Z)">${ICON.redo}</button><button class="btn icon ghost" id="tbHelp" title="Kurzanleitung (?)">${ICON.help}</button>`;
   h += `<button class="btn primary" id="tbExport" title="Speichern als … (Strg+S)">${ICON.save}Speichern als</button>`;
   tb.innerHTML = h;
-  $$('[data-seg]', tb).forEach(s => { const [o, k] = s.dataset.seg.split('.'); $$('button', s).forEach(b => { b.classList.toggle('on', settings[o][k] === b.dataset.v); b.onclick = () => { settings[o][k] = b.dataset.v; saveSettings(); renderToolbar(); renderDiagram(); }; }); });
+  $$('[data-seg]', tb).forEach(s => { const [o, k] = s.dataset.seg.split('.'); $$('button', s).forEach(b => { b.classList.toggle('on', (o === 'gantt' && k === 'zoom' && settings.gantt.zoom === 'hour' && project.unit !== 'h' ? 'day' : settings[o][k]) === b.dataset.v); b.onclick = () => { settings[o][k] = b.dataset.v; saveSettings(); renderToolbar(); renderDiagram(); }; }); });
   $('#zOut').onclick = () => setZoom(state.zoom[v] / 1.2); $('#zIn').onclick = () => setZoom(state.zoom[v] * 1.2); $('#zFit').onclick = fitZoom;
   $('#tbPanel').onclick = () => { settings.panelOpen = !settings.panelOpen; saveSettings(); applyLayout(); renderToolbar(); renderDiagram(); };
   $('#tbInsp').onclick = () => { settings.inspector = !settings.inspector; saveSettings(); renderToolbar(); renderInspector(); if (settings.inspector && !state.sel && !state.selEdge) toast('Wähle einen Vorgang aus, um seine Eigenschaften zu sehen.'); };
@@ -4332,7 +4426,7 @@ function openViewPop(btn) {
 }
 function scrollToToday() {
   const g = state.gv; if (!g) return; const t = today(); const c = $('#canvas');
-  const x = (g.TW + (t - g.d0) * g.ppd) * state.zoom.gantt + 24;
+  const x = g.X(t + .5) * state.zoom.gantt + 24;
   c.scrollTo({ left: Math.max(0, x - c.clientWidth / 2), behavior: 'smooth' });
 }
 
@@ -4347,20 +4441,21 @@ function renderTable() {
   const ae = document.activeElement;
   const focus = ae && ae.closest && ae.closest('#tblWrap') && ae.dataset.f ? { id: ae.closest('tr')?.dataset.id, f: ae.dataset.f, s: ae.selectionStart } : null;
   const scroll = wrap.scrollTop;
-  let h = `<table class="grid"><thead><tr><th>PSP-Code</th><th>Bezeichnung</th><th>Dauer</th><th><span class="hint" title="z. B. 1.2 · mehrere mit Komma · Typen: EA (Normalfolge), AA, EE, AE · Zeitabstand: 1.2+2">Vorgänger</span></th><th>Verantwortlich</th><th>%</th><th>Anfang</th><th>Ende</th><th title="Gesamtpuffer">GP</th></tr></thead><tbody>`;
+  let h = `<table class="grid"><thead><tr><th>PSP-Code</th><th>Bezeichnung</th><th>${tr('Dauer')}${project.unit === 'h' ? ' (h)' : ''}</th><th><span class="hint" title="z. B. 1.2 · mehrere mit Komma · Typen: EA (Normalfolge), AA, EE, AE · Zeitabstand: 1.2+2">Vorgänger</span></th><th><span class="hint" title="${tr('Mit Stunden: Lea K. 4h, Tim R. 6h')}">${tr(project.unit === 'h' ? 'Zuständig (Stunden)' : 'Verantwortlich')}</span></th><th>%</th><th>Anfang</th><th>Ende</th><th title="Gesamtpuffer">GP</th></tr></thead><tbody>`;
   const ri = info('__root');
-  h += `<tr class="root sum${state.sel === '__root' ? ' sel' : ''}" data-id="__root"><td class="c-code"><span class="grip-sp"></span>0</td><td><input class="in name w-name" data-f="pname" value="${esc(project.name)}" aria-label="Projektname"></td><td><span class="calc" data-c="dur">${fmtDur(ri.s.D)}</span></td><td><span class="calc">–</span></td><td><input class="in w-resp" data-f="pmanager" value="${esc(project.manager || '')}" placeholder="Projektleitung"></td><td><span class="calc" data-c="pct">${ri.progress}</span></td><td><span class="calc" data-c="start">${fmtDate(ri.start)}</span></td><td><span class="calc" data-c="end">${fmtDate(ri.end)}</span></td><td></td></tr>`;
+  h += `<tr class="root sum${state.sel === '__root' ? ' sel' : ''}" data-id="__root"><td class="c-code"><span class="grip-sp"></span>0</td><td><input class="in name w-name" data-f="pname" value="${esc(project.name)}" aria-label="Projektname"></td><td><span class="calc" data-c="dur">${fmtDur(ri.s.D)}</span></td><td><span class="calc">–</span></td><td><input class="in w-resp" data-f="pmanager" value="${esc(project.manager || '')}" placeholder="Projektleitung"></td><td><span class="calc" data-c="pct">${ri.progress}</span></td><td><span class="calc" data-c="start">${ri.t0}</span></td><td><span class="calc" data-c="end">${ri.t1}</span></td><td></td></tr>`;
   visibleFlat().forEach(it => {
     const inf = info(it.id), lv = M.level.get(it.id), leaf = inf.leaf;
     const tg = leaf ? '<span class="tg"></span>' : `<button class="tg" data-tg="${it.id}" title="${it.collapsed ? 'Ausklappen' : 'Einklappen'}">${it.collapsed ? '▸' : '▾'}</button>`;
     h += `<tr class="${leaf ? '' : 'sum'}${state.sel === it.id ? ' sel' : ''}" data-id="${it.id}">`;
-    h += `<td class="c-code"${it.color ? ` style="box-shadow:inset 3px 0 0 ${esc(it.color)}"` : ''}><span class="grip" title="Ziehen zum Verschieben">⋮⋮</span>${tg}${inf.ms ? '<span class="ms"></span>' : ''}${M.code.get(it.id)}${inf.s.constrained ? ` <span title="${tr('Fixtermin: frühester Start {0}', fmtDate(toDay(it.minStart)))}">${PIN_SVG}</span>` : ''}${it.collapsed ? ` <span class="cnt">+${descCount(it.id)}</span>` : ''}</td>`;
+    h += `<td class="c-code"${it.color ? ` style="box-shadow:inset 3px 0 0 ${esc(it.color)}"` : ''}><span class="grip" title="Ziehen zum Verschieben">⋮⋮</span>${tg}${inf.ms ? '<span class="ms"></span>' : ''}${M.code.get(it.id)}${inf.s.constrained ? ` <span title="${tr('Fixtermin: frühester Start {0}', fmtDate(toDay(String(it.minStart).slice(0, 10))))}">${PIN_SVG}</span>` : ''}${it.collapsed ? ` <span class="cnt">+${descCount(it.id)}</span>` : ''}</td>`;
     h += `<td><input class="in name w-name" data-f="name" value="${esc(it.name)}" style="padding-left:${.35 + (lv - 1) * 1.05}rem" aria-label="Bezeichnung"${it.note ? ` title="${esc(it.note)}"` : ''}></td>`;
-    h += leaf ? `<td><input class="in num w-dur" type="number" min="0" max="9999" data-f="duration" value="${it.duration}" aria-label="Dauer"></td>` : `<td><span class="calc" data-c="dur">${fmtDur(inf.s.D)}</span></td>`;
+    const autoD = leaf && project.unit === 'h' && (it.work || []).some(w => w.h > 0);
+    h += leaf ? `<td><input class="in num w-dur" type="number" min="0" max="99999" data-f="duration" value="${it.duration}" aria-label="Dauer"${autoD ? ` readonly title="${tr('Ergibt sich aus den Stunden pro Person.')}"` : ''}></td>` : `<td><span class="calc" data-c="dur">${fmtDur(inf.s.D)}</span></td>`;
     h += leaf ? `<td><input class="in mono w-dep" data-f="deps" value="${esc(depsToString(it))}" placeholder="–" aria-label="Vorgänger" spellcheck="false"></td>` : `<td><span class="calc">–</span></td>`;
-    h += `<td><input class="in w-resp" data-f="resp" value="${esc(it.resp || '')}" aria-label="Verantwortlich"></td>`;
+    h += `<td><input class="in w-resp" data-f="resp" value="${esc(leaf ? workStr(it) : it.resp || '')}" aria-label="Verantwortlich"${leaf ? ` title="${tr('Mit Stunden: Lea K. 4h, Tim R. 6h')}"` : ''}></td>`;
     h += leaf ? `<td><input class="in num w-pct" type="number" min="0" max="100" step="10" data-f="progress" value="${it.progress || 0}" aria-label="Fortschritt in Prozent"></td>` : `<td><span class="calc" data-c="pct">${inf.progress}</span></td>`;
-    h += `<td><span class="calc" data-c="start">${fmtDate(inf.start)}</span></td><td><span class="calc" data-c="end">${fmtDate(inf.end)}</span></td>`;
+    h += `<td><span class="calc" data-c="start">${inf.t0}</span></td><td><span class="calc" data-c="end">${inf.t1}</span></td>`;
     h += `<td><span class="calc${leaf && inf.s.crit ? ' crit' : ''}" data-c="gp">${leaf ? inf.s.GP : ''}</span></td></tr>`;
   });
   h += '</tbody></table>';
@@ -4374,7 +4469,7 @@ function updateComputedCells() {
     const id = tr.dataset.id; if (id !== '__root' && !M.byId.has(id)) return;
     const inf = info(id);
     const set = (k, v) => { const el = $(`[data-c="${k}"]`, tr); if (el) el.textContent = v; };
-    set('dur', fmtDur(inf.s.D)); set('pct', inf.progress); set('start', fmtDate(inf.start)); set('end', fmtDate(inf.end));
+    set('dur', fmtDur(inf.s.D)); set('pct', inf.progress); set('start', inf.t0); set('end', inf.t1);
     if (inf.leaf) { set('gp', inf.s.GP); const g = $('[data-c="gp"]', tr); if (g) g.classList.toggle('crit', inf.s.crit); }
   });
 }
@@ -4491,23 +4586,28 @@ function addDep(from, to, type = 'EA', lag = 0) {
 function removeDep(from, to) { const t = itemById(to); if (!t) return; if (state.selEdge === from + '|' + to) state.selEdge = null; commit(() => { t.deps = t.deps.filter(d => d.id !== from); }); }
 function updateDep(from, to, patch) { const t = itemById(to); const d = t && t.deps.find(x => x.id === from); if (!d) return; commit(() => Object.assign(d, patch)); }
 
-function applyMove(id, days) {
+function applyMove(id, nf) {
   const it = itemById(id); if (!it) return; const inf = info(id), s = inf.s, cal = state.cal;
-  const nd = inf.start + days;
-  const nf = inf.ms && s.FAZ > 0 ? (cal.isWork(nd) ? cal.indexOf(nd) + 1 : cal.indexOf(nd)) : cal.indexOf(nd);
+  const days = nf - s.FAZ;
   if (nf <= s.FAZdep) {
     if (nf < s.FAZdep && days < 0) { const dr = s.driver ? itemById(s.driver) : null; toast(dr ? tr('Früher geht nicht: Erst muss „{0}“ fertig sein. Ändere dafür die Vorgänger.', state.M.code.get(s.driver) + ' ' + dr.name) : 'Früher geht nicht: Der Vorgang beginnt schon zum Projektstart.'); }
     if (!it.minStart) { renderDiagram(); return; }
     commit(() => it.minStart = '');
     return;
   }
-  commit(() => it.minStart = toISO(cal.wd(nf)));
-  toast(tr('Frühester Start: {0}. Rechtsklick → „Fixtermin entfernen“ setzt ihn zurück.', fmtDateWd(state.cal.wd(nf))));
+  commit(() => it.minStart = cal.toStr(nf));
+  toast(tr('Frühester Start: {0}. Rechtsklick → „Fixtermin entfernen“ setzt ihn zurück.', fmtDateWd(cal.wd(nf)) + (cal.U > 1 ? ' ' + cal.tStart(nf) : '')));
 }
-function applyResize(id, days) {
-  const it = itemById(id); if (!it) return; const inf = info(id);
-  const D = Math.max(1, state.cal.indexOf(inf.end + days + 1) - inf.s.FAZ);
+function applyResize(id, D) {
+  const it = itemById(id); if (!it) return;
+  D = Math.max(1, Math.round(D));
   if (D === +it.duration) { renderDiagram(); return; }
+  // Stundenplanung mit Stunden pro Person: die Dauer ergibt sich aus den Stunden
+  const wk = (it.work || []).filter(w => w.h > 0);
+  if (project.unit === 'h' && wk.length) {
+    if (wk.length === 1) { commit(() => wk[0].h = D); return; }
+    toast(tr('Die Dauer ergibt sich aus den Stunden pro Person. Ändere die Stunden in den Eigenschaften.')); renderDiagram(); return;
+  }
   commit(() => it.duration = D);
 }
 function applyNetRow(id, dy) {
@@ -4668,7 +4768,7 @@ function tipHtml(id) {
   const inf = info(id), M = state.M, it = inf.it;
   const type = tr(!it ? 'Projekt' : inf.ms ? 'Meilenstein' : inf.leaf ? 'Arbeitspaket' : 'Teilaufgabe');
   let h = `<div class="tt-h"><span class="badge">${it ? M.code.get(id) : '0'}</span><b>${esc(it ? it.name : project.name)}</b></div><div class="tt-s">${type}${inf.leaf && inf.s.crit ? ` · <span class="crit">${tr('kritisch')}</span>` : ''}${inf.leaf && inf.s.constrained ? ' · ' + tr('Fixtermin') : ''}</div>`;
-  h += `<div class="kv"><span>${tr('Anfang')}</span><b>${fmtDate(inf.start)}</b><span>${tr('Ende')}</span><b>${fmtDate(inf.end)}</b><span>${tr('Dauer')}</span><b>${fmtDur(inf.s.D)}</b>${inf.leaf ? `<span>${tr('Puffer')}</span><b>${inf.s.GP}</b>` : `<span>${tr('Fertig')}</span><b>${inf.progress} %</b>`}</div>`;
+  h += `<div class="kv"><span>${tr('Anfang')}</span><b>${inf.t0}</b><span>${tr('Ende')}</span><b>${inf.t1}</b><span>${tr('Dauer')}</span><b>${fmtDur(inf.s.D)}</b>${inf.leaf ? `<span>${tr('Puffer')}</span><b>${inf.s.GP}</b>` : `<span>${tr('Fertig')}</span><b>${inf.progress} %</b>`}</div>`;
   if (it?.resp) h += `<div class="tt-s">${esc(tr('Verantwortlich: {0}', it.resp))}</div>`;
   if (it?.note) h += `<div class="tt-n">${esc(it.note)}</div>`;
   return h;
@@ -4730,9 +4830,18 @@ function moveDrag(d, e) {
   if (d.kind === 'risk') { riskDragMove(d, e); return; }
   const [x, y] = toSvg(e);
   if (d.kind === 'bar' || d.kind === 'resize') {
-    const g = state.gv; const days = Math.round((x - d.x0) / g.ppd); d.days = days; const inf = info(d.id);
-    if (d.kind === 'bar') { if (d.g) d.g.setAttribute('transform', `translate(${days * g.ppd},0)`); const cal = state.cal; const nd = cal.wd(cal.indexOf(inf.start + days)); showTip(e.clientX, e.clientY, `<b>${esc(inf.it.name)}</b><div class="tt-s">${tr(inf.ms ? 'Termin' : 'Start')}: ${fmtDateWd(nd)}</div>`); }
-    else { if (d.main) d.main.setAttribute('width', Math.max(g.ppd, d.w0 + days * g.ppd)); const D = Math.max(1, state.cal.indexOf(inf.end + days + 1) - inf.s.FAZ); showTip(e.clientX, e.clientY, `<b>${esc(inf.it.name)}</b><div class="tt-s">${tr('Dauer: {0} · Ende {1}', fmtDur(D), fmtDateWd(state.cal.wd(inf.s.FAZ + D - 1)))}</div>`); }
+    const g = state.gv, cal = state.cal, inf = info(d.id), hm = cal.U > 1, dx = x - d.x0;
+    const when = (i, endOf) => fmtDateWd(cal.wd(i)) + (hm ? ' ' + (endOf ? cal.tEnd(i) : cal.tStart(i)) : '');
+    if (d.kind === 'bar') {
+      const nf = cal.idxAt(g.posAt(g.X(inf.p0) + dx)); d.days = nf - inf.s.FAZ; d.nf = nf;
+      const np = inf.ms && nf > 0 ? cal.endPos(nf - 1) : cal.pos(nf);
+      if (d.g) d.g.setAttribute('transform', `translate(${g.X(np) - g.X(inf.p0)},0)`);
+      showTip(e.clientX, e.clientY, `<b>${esc(inf.it.name)}</b><div class="tt-s">${tr(inf.ms ? 'Termin' : 'Start')}: ${inf.ms && nf > 0 ? when(nf - 1, true) : when(nf)}</div>`);
+    } else {
+      const D = Math.max(1, cal.idxAt(g.posAt(g.X(inf.p1) + dx)) - inf.s.FAZ); d.days = D - inf.s.D; d.D = D;
+      if (d.main) d.main.setAttribute('width', Math.max(4, g.X(cal.endPos(inf.s.FAZ + D - 1)) - g.X(inf.p0)));
+      showTip(e.clientX, e.clientY, `<b>${esc(inf.it.name)}</b><div class="tt-s">${tr('Dauer: {0} · Ende {1}', fmtDur(D), when(inf.s.FAZ + D - 1, true))}</div>`);
+    }
     return;
   }
   if (d.kind === 'netrow') { d.dy = y - d.y0; if (d.g) d.g.setAttribute('transform', `translate(0,${d.dy})`); return; }
@@ -4748,8 +4857,8 @@ function moveDrag(d, e) {
 function endDrag(d) {
   document.body.classList.remove('dragging', 'dragging-ew'); hideTip(); $('#ghost').hidden = true; $('#dropInd').hidden = true;
   if (d.kind === 'risk') riskDragEnd(d);
-  else if (d.kind === 'bar') { if (d.days) applyMove(d.id, d.days); else renderDiagram(); }
-  else if (d.kind === 'resize') { if (d.days) applyResize(d.id, d.days); else renderDiagram(); }
+  else if (d.kind === 'bar') { if (d.days) applyMove(d.id, d.nf); else renderDiagram(); }
+  else if (d.kind === 'resize') { if (d.days) applyResize(d.id, d.D); else renderDiagram(); }
   else if (d.kind === 'netrow') applyNetRow(d.id, d.dy || 0);
   else if (d.kind === 'link') { d.line.remove(); if (d.target) addDep(d.id, d.target); else renderDiagram(); }
   else if (d.kind === 'struct') { const dr = d.drop; if (dr && !dr.invalid) moveItem(d.id, dr.tid, dr.zone); else renderDiagram(); }
@@ -4849,7 +4958,7 @@ function bindCanvas() {
 
 /* ---------- Tastatur auf der Zeichenfläche ---------- */
 function canvasKeys(e) {
-  if (settings.view === 'pdf' || state.renaming) return false;
+  if (settings.view === 'pdf' || state.renaming || e.defaultPrevented) return false;
   const ae = document.activeElement;
   if (!(ae === document.body || ae === $('#canvas') || !ae)) return false;
   const id = state.sel, k = e.key, ctrl = e.ctrlKey || e.metaKey, M = state.M;
@@ -4938,8 +5047,8 @@ function bindTable() {
     else {
       const it = itemById(id); if (!it) return;
       if (f === 'name') it.name = el.value;
-      else if (f === 'resp') it.resp = el.value;
-      else if (f === 'duration') { if (el.value === '') return; it.duration = clamp(Math.round(+el.value || 0), 0, 9999); }
+      else if (f === 'resp') { if (!state.M.isLeaf(it.id)) it.resp = el.value; return; }
+      else if (f === 'duration') { if (el.value === '' || el.readOnly) return; it.duration = clamp(Math.round(+el.value || 0), 0, 99999); }
       else if (f === 'progress') { if (el.value === '') return; it.progress = clamp(Math.round(+el.value || 0), 0, 100); }
       else if (f === 'deps') { el.classList.remove('err'); return; }
     }
@@ -4953,6 +5062,10 @@ function bindTable() {
       if (errs.length) { el.classList.add('err'); el.title = errs.join('\n'); toast(errs[0], true); return; }
       el.classList.remove('err'); el.title = '';
       commit(() => { it.deps = deps; });
+    } else if (f === 'resp' && it && state.M.isLeaf(it.id)) {
+      // "Lea K. 4h, Tim R. 6" -> Stunden pro Person
+      const w = parseWork(el.value); state.typing = false;
+      commit(() => { it.work = w.some(x => x.h > 0) ? w : []; it.resp = w.map(x => x.n).join(', '); });
     } else if (f === 'duration' || f === 'progress') {
       if (el.value === '') el.value = f === 'duration' ? it.duration : it.progress;
       state.typing = false; renderAll();
@@ -4961,9 +5074,9 @@ function bindTable() {
   });
   wrap.addEventListener('keydown', e => {
     const el = e.target; if (!el.dataset || !el.dataset.f) return;
-    if (e.key === 'Enter' && !e.altKey) { e.preventDefault(); if (el.dataset.f === 'deps') { el.dispatchEvent(new Event('change', { bubbles: true })); return; } el.blur(); op(state.sel === '__root' ? 'child' : 'sibling'); }
+    if (e.key === 'Enter' && !e.altKey) { e.preventDefault(); e.stopPropagation(); if (el.dataset.f === 'deps') { el.dispatchEvent(new Event('change', { bubbles: true })); return; } el.blur(); op(state.sel === '__root' ? 'child' : 'sibling'); }
     else if (e.altKey && ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-      e.preventDefault(); const f = el.dataset.f, id = state.sel; el.blur();
+      e.preventDefault(); e.stopPropagation(); const f = el.dataset.f, id = state.sel; el.blur();
       op({ ArrowLeft: 'outdent', ArrowRight: 'indent', ArrowUp: 'up', ArrowDown: 'down' }[e.key]);
       requestAnimationFrame(() => { const n = $(`#tblWrap tr[data-id="${id}"] [data-f="${f}"]`); if (n) n.focus(); });
     }
@@ -4994,10 +5107,28 @@ function bindTable() {
 const ifield = (label, inner) => `<div class="ifield"><label>${label}</label>${inner}</div>`;
 function parseDur(v) {
   v = String(v).trim().toLowerCase().replace(',', '.');
-  let m = v.match(/^(\d+(?:\.\d+)?)\s*(w|wo|wk|woche|wochen|week|weeks)$/); if (m) return Math.min(9999, Math.round(+m[1] * (project.workdaysOnly ? 5 : 7)));
-  m = v.match(/^(\d+)\s*(d|t|at|wd|tag|tage|day|days)?$/); if (m) return Math.min(9999, +m[1]);
+  const hm = project.unit === 'h', k = hm ? project.hpd : 1;
+  let m = v.match(/^(\d+(?:\.\d+)?)\s*(w|wo|wk|woche|wochen|week|weeks)$/); if (m) return Math.min(99999, Math.round(+m[1] * (project.workdaysOnly ? 5 : 7) * k));
+  m = v.match(/^(\d+(?:\.\d+)?)\s*(d|t|at|wd|tag|tage|day|days)$/); if (m) return Math.min(99999, Math.round(+m[1] * k));
+  m = v.match(/^(\d+(?:\.\d+)?)\s*(h|std|std\.|stunden|hours?)$/); if (m) return Math.min(99999, hm ? Math.ceil(+m[1]) : Math.ceil(+m[1] / project.hpd));
+  m = v.match(/^(\d+)$/); if (m) return Math.min(99999, +m[1]);
   return null;
 }
+const durUnitLabel = () => project.unit === 'h' ? 'Stunden' : project.workdaysOnly ? 'Arbeitstage' : 'Tage';
+const lagUnitLabel = () => project.unit === 'h' ? 'Stunden' : 'Tage';
+const timeOpts = (sel, a, b) => { let o = ''; for (let i = a; i <= b; i++) o += `<option value="${i}"${i === sel ? ' selected' : ''}>${pad2(i)}:00</option>`; return o; };
+// Alle bekannten Namen für die Auswahlliste
+const knownPeople = () => [...new Set(project.items.flatMap(i => (i.work || []).length ? i.work.map(w => w.n) : splitPeople(i.resp)).concat(splitPeople(project.manager || '')).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+function workRows(it) { return (it.work || []).length ? it.work.map(w => ({ ...w })) : splitPeople(it.resp).map(n => ({ n, h: 0 })); }
+function workEditor(it) {
+  const rows = workRows(it), hm = project.unit === 'h', sum = rows.reduce((a, w) => a + (w.h || 0), 0);
+  let h = `<div class="work">` + rows.map((w, i) => `<div class="wrow" data-wi="${i}"><input type="text" data-wk="n" list="respList" value="${esc(w.n)}" placeholder="${tr('Name')}" aria-label="${tr('Name')}"><input type="text" inputmode="decimal" data-wk="h" value="${w.h ? fmtH(w.h) : ''}" placeholder="0" aria-label="${tr('Stunden')}" title="${tr('Stunden für diesen Vorgang')}"><span class="wu">h</span><button class="btn icon ghost" data-ia="rmwork" title="${tr('Person entfernen')}">${ICON.x}</button></div>`).join('');
+  h += `<button class="btn" data-ia="addwork">${ICON.plus}${tr('Person')}</button></div>`;
+  h += `<datalist id="respList">${knownPeople().map(r => `<option value="${esc(r)}">`).join('')}</datalist>`;
+  const hint = sum > 0 ? tr('Summe {0} h', fmtH(sum)) + (hm ? ' · ' + tr('Dauer = längste Einzelzeit ({0} h), weil parallel gearbeitet wird.', fmtH(Math.max(...rows.map(w => w.h || 0)))) : ' · ' + tr('Fließt in die Personalkosten ein.')) : tr('Stunden pro Person eintragen. Leer = Dauer × Stunden pro Tag.');
+  return h + `<small class="hint">${hint}</small>`;
+}
+function readWork(box) { return $$('.wrow', box).map(r => ({ n: $('[data-wk="n"]', r).value.trim(), h: Math.max(0, Math.round((parseFloat(String($('[data-wk="h"]', r).value).replace(',', '.')) || 0) * 4) / 4) })).filter(w => w.n || w.h); }
 function inspItem(id) {
   const M = state.M, SC = state.SC, inf = info(id), root = id === '__root', it = inf.it, leaf = inf.leaf, s = inf.s;
   const type = root ? 'Projekt' : inf.ms ? 'Meilenstein' : leaf ? 'Arbeitspaket' : 'Teilaufgabe';
@@ -5007,26 +5138,29 @@ function inspItem(id) {
     h += ifield('Projektleitung', `<input type="text" data-k="manager" value="${esc(project.manager || '')}">`);
     h += ifield('Projektstart', `<input type="date" data-k="pstart" value="${esc(project.start)}">`);
     h += `<label class="chip" style="justify-self:start"><input type="checkbox" data-k="workdays"${project.workdaysOnly ? ' checked' : ''}>Nur Werktage (Mo–Fr)</label>`;
+    h += ifield('Zeitplan in', `<div class="seg"><button data-ia="unit:d" class="${project.unit !== 'h' ? 'on' : ''}">Tagen</button><button data-ia="unit:h" class="${project.unit === 'h' ? 'on' : ''}">Stunden</button></div>` + (project.unit === 'h' ? `<div class="row-i" style="margin-top:.4rem"><label class="mini">${tr('Std. pro Tag')}<input type="number" min="1" max="24" data-k="hpd" value="${project.hpd}"></label><label class="mini">${tr('Arbeitsbeginn')}<select data-k="dayStart">${timeOpts(project.dayStart ?? 8, 0, 23)}</select></label></div>` : '') + `<small class="hint">${tr(project.unit === 'h' ? 'Dauern und Zeitabstände in Stunden, z. B. für ein IHK-Projekt mit 80 h.' : 'Für stundengenaue Planung auf Stunden umstellen.')}</small>`);
   }
   if (leaf) {
-    h += ifield('Dauer', `<div class="stepper"><button data-ia="dur-" aria-label="Kürzer">−</button><input type="text" data-k="duration" value="${it.duration}" inputmode="numeric" aria-label="Dauer"><button data-ia="dur+" aria-label="Länger">+</button><span class="unit-l">${project.workdaysOnly ? 'Arbeitstage' : 'Tage'}</span></div><small class="hint">0 = Meilenstein · „2w“ = 2 Wochen · im Gantt rechte Balkenkante ziehen</small>`);
+    const auto = project.unit === 'h' && (it.work || []).some(w => w.h > 0);
+    h += ifield('Dauer', `<div class="stepper"><button data-ia="dur-" aria-label="Kürzer"${auto ? ' disabled' : ''}>−</button><input type="text" data-k="duration" value="${it.duration}" inputmode="numeric" aria-label="Dauer"${auto ? ' disabled' : ''}><button data-ia="dur+" aria-label="Länger"${auto ? ' disabled' : ''}>+</button><span class="unit-l">${tr(durUnitLabel())}</span></div><small class="hint">${tr(auto ? 'Ergibt sich aus den Stunden pro Person.' : project.unit === 'h' ? '0 = Meilenstein · „2d“ = 2 Tage · im Gantt rechte Balkenkante ziehen' : '0 = Meilenstein · „2w“ = 2 Wochen · im Gantt rechte Balkenkante ziehen')}</small>`);
     const drv = s.driver ? M.code.get(s.driver) : null;
-    h += ifield('Frühester Start (Fixtermin)', `<div class="row-i"><input type="date" data-k="minStart" value="${esc(it.minStart || '')}" aria-label="Frühester Start">${it.minStart ? `<button class="btn icon" data-ia="clearMin" title="Fixtermin entfernen">${ICON.x}</button>` : ''}</div><small class="hint">${tr(it.minStart ? (s.constrained ? 'Der Fixtermin verschiebt den Start nach hinten.' : 'Der Fixtermin liegt vor dem frühestmöglichen Start und wirkt gerade nicht.') : drv ? 'Der Start ergibt sich aus Vorgänger {0}.' : 'Der Start ergibt sich aus dem Projektstart.', drv)} ${tr('Tipp: Balken im Gantt ziehen.')}</small>`);
-    let dl = it.deps.map(d => { const c = M.code.get(d.id); const nm = M.byId.get(d.id)?.name || ''; return `<div class="dep" data-dep="${d.id}"><span class="badge">${c}</span><span class="nm" title="${esc(nm)}">${esc(nm)}</span><select data-dk="type" title="Art der Verknüpfung">${DEP_TYPES.map(([t, l]) => `<option value="${t}"${d.type === t ? ' selected' : ''} title="${tr(l)}">${depCode(t)}</option>`).join('')}</select><input type="number" data-dk="lag" value="${d.lag}" title="Zeitabstand in Tagen" aria-label="Zeitabstand"><button class="btn icon ghost" data-ia="rmdep" title="Verknüpfung entfernen">${ICON.x}</button></div>`; }).join('');
+    h += ifield('Frühester Start (Fixtermin)', `<div class="row-i"><input type="date" data-k="minStart" value="${esc(String(it.minStart || '').slice(0, 10))}" aria-label="Frühester Start">${project.unit === 'h' && it.minStart ? `<select data-k="minTime" aria-label="${tr('Uhrzeit')}">${(() => { const ds = project.dayStart ?? 8, cur = /T(\d{2})/.exec(it.minStart); let o = ''; for (let i = 0; i < project.hpd; i++) o += `<option value="${ds + i}"${cur && +cur[1] === ds + i ? ' selected' : ''}>${state.cal.clock(i)}</option>`; return o; })()}</select>` : ''}${it.minStart ? `<button class="btn icon" data-ia="clearMin" title="Fixtermin entfernen">${ICON.x}</button>` : ''}</div><small class="hint">${tr(it.minStart ? (s.constrained ? 'Der Fixtermin verschiebt den Start nach hinten.' : 'Der Fixtermin liegt vor dem frühestmöglichen Start und wirkt gerade nicht.') : drv ? 'Der Start ergibt sich aus Vorgänger {0}.' : 'Der Start ergibt sich aus dem Projektstart.', drv)} ${tr('Tipp: Balken im Gantt ziehen.')}</small>`);
+    let dl = it.deps.map(d => { const c = M.code.get(d.id); const nm = M.byId.get(d.id)?.name || ''; return `<div class="dep" data-dep="${d.id}"><span class="badge">${c}</span><span class="nm" title="${esc(nm)}">${esc(nm)}</span><select data-dk="type" title="Art der Verknüpfung">${DEP_TYPES.map(([t, l]) => `<option value="${t}"${d.type === t ? ' selected' : ''} title="${tr(l)}">${depCode(t)}</option>`).join('')}</select><input type="number" data-dk="lag" value="${d.lag}" title="${tr(project.unit === 'h' ? 'Zeitabstand in Stunden' : 'Zeitabstand in Tagen')}" aria-label="Zeitabstand"><button class="btn icon ghost" data-ia="rmdep" title="Verknüpfung entfernen">${ICON.x}</button></div>`; }).join('');
     const cand = SC.leaves.filter(x => x.id !== id && !it.deps.some(d => d.id === x.id));
     dl += `<select data-ia="adddep" aria-label="Vorgänger hinzufügen"><option value="">+ Vorgänger hinzufügen …</option>${cand.map(x => `<option value="${x.id}">${M.code.get(x.id)}  ${esc(x.name)}</option>`).join('')}</select>`;
-    h += ifield('Vorgänger', `<div class="deps">${dl}</div><small class="hint">EA Normalfolge · AA Anfangsfolge · EE Endfolge · AE Sprungfolge. Zahl = Zeitabstand in Tagen.</small>`);
+    h += ifield('Vorgänger', `<div class="deps">${dl}</div><small class="hint">${tr(project.unit === 'h' ? 'EA Normalfolge · AA Anfangsfolge · EE Endfolge · AE Sprungfolge. Zahl = Zeitabstand in Stunden.' : 'EA Normalfolge · AA Anfangsfolge · EE Endfolge · AE Sprungfolge. Zahl = Zeitabstand in Tagen.')}</small>`);
     const succ = SC.succ.get(id) || [];
     if (succ.length) h += ifield(LANG === 'en' ? 'Successors' : 'Nachfolger', `<div class="chips">${succ.map(e => `<button class="chip" data-goto="${e.to}"><span class="badge">${M.code.get(e.to)}</span>${esc(M.byId.get(e.to).name)}</button>`).join('')}</div>`);
   }
-  if (!root) {
-    const people = [...new Set(project.items.map(i => i.resp).filter(Boolean))];
+  if (leaf) h += ifield('Zuständig und Stunden', workEditor(it));
+  else if (!root) {
+    const people = knownPeople();
     h += ifield('Verantwortlich', `<input type="text" data-k="resp" list="respList" value="${esc(it.resp || '')}" placeholder="Name"><datalist id="respList">${people.map(r => `<option value="${esc(r)}">`).join('')}</datalist>`);
   }
   if (leaf) h += ifield(`Fortschritt <b data-o="pct">${it.progress || 0} %</b>`, `<input type="range" min="0" max="100" step="5" data-k="progress" value="${it.progress || 0}" aria-label="Fortschritt">`);
   if (!root) h += ifield('Farbe', colorRow(it.color));
   if (!root) h += ifield('Notiz', `<textarea data-k="note" rows="3" placeholder="Hinweise, Links, Ergebnisse …">${esc(it.note || '')}</textarea>`);
-  h += `<div class="ifield"><label>Termine</label><div class="kv"><span>Anfang</span><b>${fmtDate(inf.start)}</b><span>Ende</span><b>${fmtDate(inf.end)}</b><span>Dauer</span><b>${fmtDur(s.D)}</b>` +
+  h += `<div class="ifield"><label>Termine</label><div class="kv"><span>Anfang</span><b>${inf.t0}</b><span>Ende</span><b>${inf.t1}</b><span>Dauer</span><b>${fmtDur(s.D)}</b>` +
     (leaf ? `<span>GP</span><b${s.crit ? ' class="crit"' : ''}>${s.GP}</b><span>FAZ</span><b>${s.FAZ}</b><span>FEZ</span><b>${s.FEZ}</b><span>SAZ</span><b>${s.SAZ}</b><span>SEZ</span><b>${s.SEZ}</b><span>FP</span><b>${s.FP}</b>` : `<span>Fertig</span><b>${inf.progress} %</b>`) + `</div></div>`;
   h += '<div class="iactions">';
   if (root) h += `<button class="btn" data-ia="child">${ICON.plus}Phase</button>`;
@@ -5042,7 +5176,7 @@ function inspEdge() {
   return `<header><b class="it-t">Verknüpfung</b><button class="btn ghost icon" data-ia="close" title="Schließen">${ICON.x}</button></header><div class="ib">
     ${ifield('Von → Nach', `<div class="ftext"><button class="chip" data-goto="${from}"><span class="badge">${M.code.get(from)}</span>${esc(M.byId.get(from).name)}</button><span class="arrow">↓</span><button class="chip" data-goto="${to}"><span class="badge">${M.code.get(to)}</span>${esc(t.name)}</button></div>`)}
     ${ifield('Art', `<div class="segv">${DEP_TYPES.map(([k, l, s]) => `<button data-ia="etype:${k}" class="${d.type === k ? 'on' : ''}"><b>${depCode(k)}</b><span>${l}<small>${s}</small></span></button>`).join('')}</div>`)}
-    ${ifield('Zeitabstand', `<div class="stepper"><button data-ia="elag-" aria-label="Weniger">−</button><input type="text" data-ek="lag" value="${d.lag}" aria-label="Zeitabstand"><button data-ia="elag+" aria-label="Mehr">+</button><span class="unit-l">Tage</span></div><small class="hint">Positiv = Wartezeit, negativ = Überlappung.</small>`)}
+    ${ifield('Zeitabstand', `<div class="stepper"><button data-ia="elag-" aria-label="Weniger">−</button><input type="text" data-ek="lag" value="${d.lag}" aria-label="Zeitabstand"><button data-ia="elag+" aria-label="Mehr">+</button><span class="unit-l">${tr(lagUnitLabel())}</span></div><small class="hint">Positiv = Wartezeit, negativ = Überlappung.</small>`)}
     <div class="iactions"><button class="btn danger" data-ia="edel">${ICON.trash}Verknüpfung löschen</button></div></div>`;
 }
 function renderInspector() {
@@ -5050,12 +5184,14 @@ function renderInspector() {
   if (state.sel && state.sel !== '__root' && !itemById(state.sel)) state.sel = null;
   if (settings.view === 'pdf' || settings.view === 'cost' || !settings.inspector || (settings.view === 'uml' ? !umlDiag() : settings.view === 'risk' ? !riskById(state.selRisk) : (!state.sel && !state.selEdge))) { el.hidden = true; return; }
   const ae = document.activeElement, inEl = ae && el.contains(ae);
+  const fw = inEl && ae.dataset.wk ? [$$('.wrow', el).indexOf(ae.closest('.wrow')), ae.dataset.wk] : null;
   const fk = inEl ? (ae.dataset.k || ae.dataset.ek || ae.dataset.rk || ae.dataset.uk) : null, fsel = inEl && ae.selectionStart != null ? ae.selectionStart : null;
   const sc = el.querySelector('.ib')?.scrollTop || 0;
   const html = settings.view === 'uml' ? inspUml() : settings.view === 'risk' ? inspRisk(state.selRisk) : state.selEdge ? inspEdge() : inspItem(state.sel);
   if (!html) { el.hidden = true; return; }
   const wasHidden = el.hidden; el.innerHTML = html; el.hidden = false; if (wasHidden) requestAnimationFrame(placeQbar);
   const ib = el.querySelector('.ib'); if (ib) ib.scrollTop = sc;
+  if (fw) { const n = $$('.wrow', el)[fw[0]]?.querySelector(`[data-wk="${fw[1]}"]`); if (n) { n.focus({ preventScroll: true }); try { n.select(); } catch (e) { } } }
   if (fk) { const n = el.querySelector(`[data-k="${fk}"],[data-ek="${fk}"],[data-rk="${fk}"],[data-uk="${fk}"]`); if (n) { n.focus({ preventScroll: true }); try { if (fsel != null) n.setSelectionRange(fsel, fsel); } catch (e) { } } }
 }
 function bindInspector() {
@@ -5077,7 +5213,11 @@ function bindInspector() {
     const t = e.target, k = t.dataset.k, dk = t.dataset.dk; const id = state.sel; const it = id && id !== '__root' ? itemById(id) : null;
     state.inspTyping = false;
     if (k === 'duration' && it) { const D = parseDur(t.value); if (D == null) { toast('Bitte eine Zahl eingeben, z. B. 3 oder 2w.', true); t.value = it.duration; return; } commit(() => it.duration = D); }
-    else if (k === 'minStart' && it) commit(() => it.minStart = Number.isFinite(toDay(t.value)) ? t.value : '');
+    else if (k === 'minStart' && it) { const tm = /T\d{2}:\d{2}$/.exec(it.minStart || ''); commit(() => it.minStart = Number.isFinite(toDay(t.value)) ? t.value + (project.unit === 'h' && tm ? tm[0] : '') : ''); }
+    else if (k === 'minTime' && it && it.minStart) commit(() => it.minStart = String(it.minStart).slice(0, 10) + 'T' + pad2(+t.value) + ':00');
+    else if (k === 'hpd') { const v = clamp(Math.round(+t.value || 8), 1, 24); commit(() => project.hpd = v); }
+    else if (k === 'dayStart') commit(() => project.dayStart = +t.value);
+    else if (t.dataset.wk && it) { const w = readWork(t.closest('.work')); setTimeout(() => commit(() => { it.work = w.filter(x => x.n); it.resp = it.work.map(x => x.n).join(', '); }), 0); }
     else if (k === 'pstart') { if (Number.isFinite(toDay(t.value))) commit(() => project.start = t.value); }
     else if (k === 'workdays') commit(() => project.workdaysOnly = t.checked);
     else if (k) renderAll();
@@ -5094,6 +5234,9 @@ function bindInspector() {
     if (a === 'close') { settings.inspector = false; saveSettings(); renderInspector(); renderToolbar(); toast('Eigenschaften ausgeblendet. Über das Symbol oben rechts holst du sie zurück.'); }
     else if ((a === 'dur-' || a === 'dur+') && it) commit(() => it.duration = Math.max(0, (+it.duration || 0) + (a === 'dur+' ? 1 : -1)));
     else if (a === 'clearMin' && it) commit(() => it.minStart = '');
+    else if (a === 'unit:d' || a === 'unit:h') setUnit(a.slice(5));
+    else if (a === 'addwork' && it) { const box = b.closest('.work'), w = readWork(box); if (w.some(x => !x.n)) { $('.wrow:last-of-type [data-wk="n"]', box)?.focus(); return; } const row = document.createElement('div'); row.className = 'wrow'; row.innerHTML = `<input type="text" data-wk="n" list="respList" placeholder="${tr('Name')}" aria-label="${tr('Name')}"><input type="text" inputmode="decimal" data-wk="h" placeholder="0" aria-label="${tr('Stunden')}"><span class="wu">h</span><button class="btn icon ghost" data-ia="rmwork" title="${tr('Person entfernen')}">${ICON.x}</button>`; box.insertBefore(row, b); row.querySelector('input').focus(); }
+    else if (a === 'rmwork' && it) { const box = b.closest('.work'); b.closest('.wrow').remove(); const w = readWork(box); commit(() => { it.work = w.filter(x => x.n); it.resp = it.work.map(x => x.n).join(', '); }); }
     else if (a === 'rmdep') removeDep(b.closest('[data-dep]').dataset.dep, id);
     else if (a === 'child') createItem('child', id === '__root' ? null : id);
     else if (a === 'after') createItem('after', id);
@@ -5403,6 +5546,7 @@ function renderSettings() {
     <div class="row2"><label class="field"><span>Projektleitung</span><input type="text" id="sMgr" value="${esc(p.manager || '')}"></label>
     <label class="field"><span>Projektstart</span><input type="date" id="sStart" value="${esc(p.start)}"></label></div>
     <label class="chip" style="justify-self:start"><input type="checkbox" id="sWork"${p.workdaysOnly ? ' checked' : ''}>Nur Werktage (Mo–Fr) planen</label>
+    <div class="field"><span>Zeitplan in</span><div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center"><div class="seg" id="sUnit"><button data-v="d">Tagen</button><button data-v="h">Stunden</button></div>${p.unit === 'h' ? `<label class="mini">${tr('Std. pro Tag')}<input type="number" id="sHpd" min="1" max="24" value="${p.hpd}"></label><label class="mini">${tr('Arbeitsbeginn')}<select id="sDayStart">${timeOpts(p.dayStart ?? 8, 0, 23)}</select></label>` : ''}</div></div>
     <label class="field"><span>Freie Tage / Feiertage (je Zeile JJJJ-MM-TT)</span><textarea id="sHol" spellcheck="false">${esc((p.holidays || []).join('\n'))}</textarea></label>
     <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center"><select id="sState" style="border:1px solid var(--line);border-radius:6px;padding:.38rem;background:var(--panel)">${Object.entries(STATES).map(([k, v]) => `<option value="${k}"${s.holidayState === k ? ' selected' : ''}>${v}</option>`).join('')}</select><button class="btn" id="sHolAdd">Gesetzliche Feiertage eintragen</button></div>
     <p class="note">Trägt die Feiertage des Bundeslands für das Startjahr und die zwei Folgejahre ein.</p>
@@ -5427,6 +5571,9 @@ function renderSettings() {
   bindP('#sName', el => p.name = el.value); bindP('#sMgr', el => p.manager = el.value);
   $('#sStart').addEventListener('change', e => { if (!Number.isFinite(toDay(e.target.value))) return; commit(() => p.start = e.target.value); });
   $('#sWork').addEventListener('change', e => commit(() => p.workdaysOnly = e.target.checked));
+  $$('#sUnit button').forEach(b => { b.classList.toggle('on', (p.unit || 'd') === b.dataset.v); b.onclick = () => { setUnit(b.dataset.v); renderSettings(); }; });
+  if ($('#sHpd')) $('#sHpd').onchange = e => commit(() => p.hpd = clamp(Math.round(+e.target.value || 8), 1, 24));
+  if ($('#sDayStart')) $('#sDayStart').onchange = e => commit(() => p.dayStart = +e.target.value);
   $('#sHol').addEventListener('change', e => { const L = e.target.value.split(/[\n,;]+/).map(x => x.trim()).filter(Boolean); const bad = L.filter(x => !Number.isFinite(toDay(x))); if (bad.length) toast(tr('Ungültiges Datum: {0} (Format JJJJ-MM-TT)', bad[0]), true); commit(() => p.holidays = [...new Set(L.filter(x => Number.isFinite(toDay(x))))].sort()); });
   $('#sState').onchange = e => { s.holidayState = e.target.value; saveSettings(); };
   $('#sHolAdd').onclick = () => {
@@ -5722,7 +5869,7 @@ async function doExport(fmt, toEditor) {
 function buildHtmlReport(inc, P) {
   recompute(); const { M, SC } = state;
   const svgs = inc.map(v => { const Rr = renderView(v, P, false); return `<section><h2>${planName(v)}</h2><div class="scroll">${svgDoc(Rr, P)}</div></section>`; }).join('');
-  const rows = M.flat.map(it => { const inf = info(it.id), s = inf.s, leaf = inf.leaf; return `<tr class="${leaf ? '' : 'sum'}${leaf && s.crit ? ' crit' : ''}"><td>${M.code.get(it.id)}</td><td style="padding-left:${(M.level.get(it.id) - 1) * 14 + 8}px">${esc(it.name)}</td><td>${fmtDur(s.D)}</td><td>${leaf ? esc(depsToString(it)) : ''}</td><td>${s.FAZ}</td><td>${s.FEZ}</td><td>${leaf ? s.SAZ : ''}</td><td>${leaf ? s.SEZ : ''}</td><td>${leaf ? s.GP : ''}</td><td>${leaf ? s.FP : ''}</td><td>${fmtDate(inf.start)}</td><td>${fmtDate(inf.end)}</td><td>${esc(it.resp || '')}</td><td style="white-space:normal;min-width:180px">${esc(it.note || '')}</td></tr>`; }).join('');
+  const rows = M.flat.map(it => { const inf = info(it.id), s = inf.s, leaf = inf.leaf; return `<tr class="${leaf ? '' : 'sum'}${leaf && s.crit ? ' crit' : ''}"><td>${M.code.get(it.id)}</td><td style="padding-left:${(M.level.get(it.id) - 1) * 14 + 8}px">${esc(it.name)}</td><td>${fmtDur(s.D)}</td><td>${leaf ? esc(depsToString(it)) : ''}</td><td>${s.FAZ}</td><td>${s.FEZ}</td><td>${leaf ? s.SAZ : ''}</td><td>${leaf ? s.SEZ : ''}</td><td>${leaf ? s.GP : ''}</td><td>${leaf ? s.FP : ''}</td><td>${inf.t0}</td><td>${inf.t1}</td><td>${esc(workStr(it))}</td><td style="white-space:normal;min-width:180px">${esc(it.note || '')}</td></tr>`; }).join('');
   const end = SC.E > 0 ? state.cal.wd(SC.E - 1) : state.cal.wd(0);
   const head = ['Nr.', 'Vorgang', 'D', 'Vorgänger', 'FAZ', 'FEZ', 'SAZ', 'SEZ', 'GP', 'FP', 'Anfang', 'Ende', 'Verantwortlich', 'Notiz'].map(x => `<th>${tr(x)}</th>`).join('');
   return `<!doctype html><html lang="${LANG}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(project.name)} – ${tr('Projektbericht')}</title><style>
@@ -6948,7 +7095,7 @@ function importData(d) {
   if (!$('#projModal').hidden) renderProjects();
 }
 function normalizeImport(d) {
-  return { version: 1, id: d.id || uid(), name: d.name || 'Projekt', manager: d.manager || '', start: Number.isFinite(toDay(d.start)) ? d.start : nextMondayISO(), workdaysOnly: d.workdaysOnly !== false, holidays: Array.isArray(d.holidays) ? d.holidays : [], items: d.items, risks: Array.isArray(d.risks) ? d.risks : [], diagrams: Array.isArray(d.diagrams) ? d.diagrams : [], cost: d.cost && typeof d.cost === 'object' ? d.cost : undefined, activeDiagram: d.activeDiagram || '', updated: d.updated };
+  return { version: 1, id: d.id || uid(), name: d.name || 'Projekt', manager: d.manager || '', start: Number.isFinite(toDay(d.start)) ? d.start : nextMondayISO(), workdaysOnly: d.workdaysOnly !== false, unit: d.unit, hpd: d.hpd, dayStart: d.dayStart, holidays: Array.isArray(d.holidays) ? d.holidays : [], items: d.items, risks: Array.isArray(d.risks) ? d.risks : [], diagrams: Array.isArray(d.diagrams) ? d.diagrams : [], cost: d.cost && typeof d.cost === 'object' ? d.cost : undefined, activeDiagram: d.activeDiagram || '', updated: d.updated };
 }
 async function syncFromIdb() {
   // localStorage wurde geleert: Einstellungen und geschlossene Hinweise aus IndexedDB zurückholen
@@ -7010,7 +7157,7 @@ let HELP_DE = '';
 function applyLang() {
   LANG = settings.lang === 'en' ? 'en' : 'de';
   document.documentElement.lang = LANG;
-  WD = LANG === 'en' ? WD_EN : WD_DE; MON = LANG === 'en' ? MON_EN : MON_DE; MON_S = LANG === 'en' ? MON_S_EN : MON_S_DE;
+  WD = LANG === 'en' ? WD_EN : WD_DE; WDL = LANG === 'en' ? WDL_EN : WDL_DE; MON = LANG === 'en' ? MON_EN : MON_DE; MON_S = LANG === 'en' ? MON_S_EN : MON_S_DE;
   const hb = $('#helpModal .body'); if (hb) hb.innerHTML = LANG === 'en' ? HELP_EN : HELP_DE;
   trTree(document.body);
 }
